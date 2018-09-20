@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="author" content="digitsensitive">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" /> -->
+  <title>phaser3-typescript</title>
+  <link rel="stylesheet" type="text/css" href="styles/css/styles.css">
+  <script src="https://connect.facebook.net/en_US/fbinstant.6.0.js"></script>
+  <script src="build/bundle.js"></script>
+  <script>
+    let game = null;
+    // window.onload = () => {
+      FBInstant.initializeAsync().then(function () {
+        alert(121212);
+        FBInstant.setLoadingProgress(100);
+        FBInstant.startGameAsync().then(function () {
+          game = new Game(config);
+          // var windowWidth = window.innerWidth;
+          // var windowHeight = window.innerHeight;
+          // if(windowWidth > windowHeight){
+          //     windowWidth = windowHeight / 1.8;
+          // }
+          // var gameWidth = windowWidth * gameOptions.gameHeight / windowHeight;
+          // game = new Phaser.Game(gameWidth, gameOptions.gameHeight, Phaser.CANVAS);
+          // game.state.add("Boot", boot);
+          // game.state.add("Preload", preload);
+          // game.state.add("TitleScreen", titleScreen);
+          // game.state.add("PlayGame", playGame);
+          // game.state.start("Boot");
+        })
+      });
+      // game = new Game(config);
+      // resize();
+      // game.state.add("Play",play);
+    // };
+  </script>
+  <!-- <style>
+    body {
+
+      margin: 0px;
+
+      padding: 0px;
+
+    }
+
+    #game {
+
+      width: 100%;
+
+      height: 100%;
+
+      position: fixed;
+
+      top: 0px;
+
+      left: 0px;
+
+      background-color: red;
+
+      background-image:url('playportrait.png');
+
+      background-repeat: no-repeat;
+
+      background-position: center center;
+
+      display: none;
+      overflow: scroll;
+
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  </style> -->
+</head>
+
+<body>
+  <div class="container">
+    <!-- <h1>phaser3-typescript</h1> -->
+    <div id="game"></div>
+  </div>
+</body>
+
+</html>
