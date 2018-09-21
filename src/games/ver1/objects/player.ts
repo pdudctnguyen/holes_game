@@ -2,8 +2,16 @@ export class Player {
     private ball;
     constructor(params) {
         this.ball = params.scene.matter.add.sprite(params.x, params.y, params.key);
-        this.ball.setDisplaySize(params.w,params.h);
-        this.ball.setOrigin(0,0);
+        for (let i = 0; i < 10; i++) {
+            params.scene.anims.create({
+                key: '' + i,
+                frames: [{ key: 'planets', frame: i }],
+                frameRate: 0
+            });
+        }
+        this.ball.anims.play(params.skin, true);
+        this.ball.setDisplaySize(params.w, params.h);
+        this.ball.setOrigin(0, 0);
         this.setCircle(params.radius);
         this.setFriction(params.friction);
         this.setBounce(params.bounce);
@@ -29,16 +37,16 @@ export class Player {
             this.ball.setCircle();
         }
     }
-    public setCollision(cat){
+    public setCollision(cat) {
         this.ball.setCollisionCategory(cat)
     }
-    public setCollideW(cat){
+    public setCollideW(cat) {
         this.ball.setCollidesWith(cat);
     }
-    public setX(val){
+    public setX(val) {
         this.ball.x = val;
     }
-    public setY(val){
+    public setY(val) {
         this.ball.y = val;
     }
     public getX() {

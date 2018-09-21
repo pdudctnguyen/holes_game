@@ -1,10 +1,13 @@
+import { customConfig } from '../const/config';
 export class Ground{
     private ground;
     constructor(params) {
         this.ground = params.scene.matter.add.image(params.x, params.y, params.key);
         params.scene.cameras.main.startFollow(this.ground, true);
         this.ground.setStatic(params.isStatic);
-        this.ground.setScale(params.scaleX, params.scaleY);
+        console.log(customConfig.width + " - " + this.ground.width);
+        let scale = customConfig.width/this.ground.width;
+        this.ground.setScale(scale, scale);
         this.setAngle(params.angle);
         this.setFriction(params.friction);
         

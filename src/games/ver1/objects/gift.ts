@@ -1,10 +1,14 @@
 export class Gift{
     private gift;
+    private x;
+    private y;
     constructor(params) {
         this.gift = params.scene.matter.add.sprite(params.x, params.y, params.key);
         this.setCircle(params.radius);
         this.gift.typeGift = params.type;
         this.gift.setStatic(true);
+        this.x = params.x;
+        this.y = params.y;
         // console.log(this.gift);
     }
     public setCircle(radius){
@@ -25,10 +29,10 @@ export class Gift{
         this.gift.enableBody(true, this.gift.getX(), 0, true, true);
     }
     public getX(){
-        return this.gift.x;
+        return this.x;
     }
     public getY(){
-        return this.gift.y;
+        return this.y;
     }
     public setDestroy(){
         this.gift.destroy();
