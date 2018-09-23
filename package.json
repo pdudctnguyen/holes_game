@@ -24,7 +24,7 @@
     "phaser": "3.11.0"
   },
   "scripts": {
-    "dev": "webpack --mode development && webpack-dev-server --mode development --https --port 8081 --host 0.0.0.0",
+    "dev": "webpack --mode development && webpack-dev-server --mode development --port 8081 --host 0.0.0.0",
     "build": "webpack --mode production && webpack-dev-server --mode production"
   },
   "repository": {
