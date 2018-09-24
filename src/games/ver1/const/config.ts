@@ -172,6 +172,14 @@ export let customConfig = {
             colorText: "white",
             fontWeight: "bold",
             fontFamily: "Arial",
+        },
+        textMyScore:{
+            x: (775 / sizeWidth) * width + disX,
+            y: (285 / sizeHeight) * height,
+            score: "10",
+            colorText: "white",
+            fontWeight: "bold",
+            fontFamily: "Arial", 
         }
 
     },
@@ -201,7 +209,26 @@ export let customConfig = {
             fontWeight: "bold",
             fontFamily: "Arial",
             marginTop:50
+        },
+        textMyScore:{
+            x: (775 / sizeWidth) * width + disX,
+            y: (350 / sizeHeight) * height,
+            score: "0000",
+            colorText: "white",
+            fontWeight: "bold",
+            fontFamily: "Arial", 
+        },
+        buttonItemFight:{
+            keyBackground:"buttonBlue",
+            icon:{
+
+            },
+            x: (850 / sizeWidth) * width + disX,
+            y: (350 / sizeHeight) * height,
+            width:0.19 * (490 / sizeWidth) * width,
+            height:0.8 * (60 / sizeHeight) * height
         }
+
     },
     btnPlayWithFriends: {
         x: (1 / 2) * width + disX,
@@ -325,8 +352,8 @@ export let AssetsMenu = [
     { key: "speakMute", url: "./src/games/ver1/assets/Speak-mute.png", type: 0 },
     { key: "red", url: "./src/games/ver1/assets/Red.png", type: 0 },
     { key: "blue", url: "./src/games/ver1/assets/Blue.png", type: 0 },
-    { key: "myScore", url: "./src/games/ver1/assets/myscore.jpg", type: 0 },
-    { key: "score", url: "./src/games/ver1/assets/score.jpg", type: 0 },
+    { key: "myScore", url: "./src/games/ver1/assets/yellow.jpeg", type: 0 },
+    { key: "score", url: "./src/games/ver1/assets/backitem.jpeg", type: 0 },
     { key: "backLeft", url: "./src/games/ver1/assets/backleft.jpg", type: 0 },
     { key: "backGreen", url: "./src/games/ver1/assets/green.jpeg", type: 0 },
     { key: "profile", url: "./src/games/ver1/assets/profile.jpg", type: 0 },

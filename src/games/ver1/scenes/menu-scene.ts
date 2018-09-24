@@ -19,10 +19,14 @@ export class MenuScene extends Phaser.Scene {
   private myProfile;
   private iconMyRank;
   private textMyRank;
+  private textMyScore;
   private itemScore;
   private itemProfile;
   private iconItemRank;
   private textItemRank;
+  private textItemScore;
+  private buttonItemFight;
+  private iconItemFight;
   private itemListScore;
   private btnPlayWithFriends;
   private textPlayWithFriends;
@@ -121,17 +125,23 @@ export class MenuScene extends Phaser.Scene {
     this.setCenter(this.textMyRank);
     this.myProfile = this.add.image(customConfig.myScore.profile.x, customConfig.myScore.profile.y, customConfig.myScore.profile.key);
     this.setSize(this.myProfile, customConfig.myScore.profile.width, customConfig.myScore.profile.height);
-
+    this.textMyScore = this.add.text(customConfig.myScore.textMyScore.x, customConfig.myScore.textMyScore.y, customConfig.myScore.textMyScore.score, { fontSize: customConfig.myScore.iconMyRank.fontSize, fill: customConfig.myScore.iconMyRank.colorText, fontFamily: customConfig.myScore.iconMyRank.fontFamily });
+    this.setCenter(this.textMyScore);
+    
 
     for (let i = 0; i < 4; i++) {
       this.itemScore = this.add.image(customConfig.itemScore.x, customConfig.itemScore.y + i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.key);
       this.setSize(this.itemScore, customConfig.itemScore.width, customConfig.itemScore.height);
       this.iconItemRank = this.add.image(customConfig.itemScore.iconMyRank.x, customConfig.itemScore.iconMyRank.y+ i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.iconMyRank.key);
       this.setSize(this.iconItemRank, customConfig.itemScore.iconMyRank.width, customConfig.itemScore.iconMyRank.height);
-      this.textItemRank = this.add.text(customConfig.itemScore.iconMyRank.x, customConfig.itemScore.iconMyRank.y + i * customConfig.itemScore.iconMyRank.marginTop, ("" + (i+1)), { fontSize: customConfig.myScore.iconMyRank.fontSize, fill: customConfig.myScore.iconMyRank.colorText, fontFamily: customConfig.myScore.iconMyRank.fontFamily });
+      this.textItemRank = this.add.text(customConfig.itemScore.iconMyRank.x, customConfig.itemScore.iconMyRank.y + i * customConfig.itemScore.iconMyRank.marginTop, ("" + (i+1)), { fontSize: customConfig.itemScore.iconMyRank.fontSize, fill: customConfig.itemScore.iconMyRank.colorText, fontFamily: customConfig.itemScore.iconMyRank.fontFamily });
       this.setCenter(this.textItemRank);
       this.itemProfile = this.add.image(customConfig.itemScore.profile.x, customConfig.itemScore.profile.y + i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.profile.key);
       this.setSize(this.itemProfile, customConfig.itemScore.profile.width, customConfig.itemScore.profile.height);
+      this.textItemScore = this.add.text(customConfig.itemScore.textMyScore.x, customConfig.itemScore.textMyScore.y + i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.textMyScore.score, { fontSize: customConfig.itemScore.iconMyRank.fontSize, fill: customConfig.itemScore.iconMyRank.colorText, fontFamily: customConfig.itemScore.iconMyRank.fontFamily });
+      this.setCenter(this.textItemScore);
+      this.buttonItemFight = this.add.image(customConfig.itemScore.buttonItemFight.x, customConfig.itemScore.buttonItemFight.y + i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.buttonItemFight.keyBackground);
+      this.setSize(this.buttonItemFight, customConfig.itemScore.buttonItemFight.width, customConfig.itemScore.buttonItemFight.height);
       // this.itemListScore.push(this.itemProfile);
 
     }
