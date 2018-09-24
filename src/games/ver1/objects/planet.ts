@@ -84,7 +84,7 @@ export class Planet {
             duration: customConfig.sliderSkin.item.duration,
             delay: 0,
             onComplete: function () {
-                this.planet.setScale(0.1);
+                planet.setScale(0.1);
                 window.setTimeout(function () {
                     scene.start("GameScene");
                 }, 1000);
