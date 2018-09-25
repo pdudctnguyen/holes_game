@@ -2,8 +2,8 @@ let width = window.innerWidth;
 let height = window.innerHeight;
 let sizeWidth = 1334;
 let sizeHeight = 750;
-let disX = (42 / sizeWidth) * width;
-
+// let disX = (42 / sizeWidth) * width;
+let disX = 0;
 export let customConfig = {
     width: width,
     height: height,
@@ -20,7 +20,7 @@ export let customConfig = {
     },
     hole: {
         startY: (6.5 / 10) * height,
-        radius: 0.07 * width,
+        radius: (128 / sizeWidth) * width,
         numFrames: 4,
         distanceY: 0.14 * height,
         randomStepY: 0.05 * height,
@@ -29,7 +29,7 @@ export let customConfig = {
     planet: {
         startY: (8 / 10) * height,
         startX: (2 / 5) * width,
-        radius: (1 / 20) * width,
+        radius: (128 / sizeWidth) * width,
         friction: 0.005,
         bounce: 0.6,
         velocityX: 2,
@@ -90,117 +90,136 @@ export let customConfig = {
     },
     imgTitle: {
         x: (1 / 2) * width + disX,
-        y: (105 / sizeHeight) * height,
+        y: (90 / sizeHeight) * height,
         width: (445 / sizeWidth) * width,
         height: (94 / sizeHeight) * height,
         key: "title"
     },
     cup: {
         x: (1 / 2) * width + disX,
-        y: (190 / sizeHeight) * height,
+        y: (175 / sizeHeight) * height,
         width: (90 / sizeWidth) * width,
         height: (90 / sizeHeight) * height,
         key: "cup"
     },
     btnfriendsScore: {
         x: (505 / sizeWidth) * width + disX,
-        y: (205 / sizeHeight) * height,
+        y: (190 / sizeHeight) * height,
         width: (225 / sizeWidth) * width,
-        height: (85 / sizeHeight) * height,
+        height: (70 / sizeHeight) * height,
         keyBackground: "buttonOrgane",
         key: "friend",
         xIcon: (457 / sizeWidth) * width + disX,
-        yIcon: (193 / sizeHeight) * height,
+        yIcon: (177 / sizeHeight) * height,
         widthIcon: 0.15 * (225 / sizeWidth) * width,
-        heightIcon: 0.4 * (85 / sizeHeight) * height,
+        heightIcon: 0.4 * (70 / sizeHeight) * height,
         textIcon: "Overall",
         fontSizeIcon: (18 / sizeWidth) * width,
         colorText: "white",
         fontWeight: "bold",
         fontFamily: "Arial",
         xTextIcon: (457 / sizeWidth) * width + disX,
-        yTextIcon: (220 / sizeHeight) * height,
+        yTextIcon: (200 / sizeHeight) * height,
         textContent: "Friends",
         fontSize: (30 / sizeWidth) * width,
         xText: (540 / sizeWidth) * width + disX,
-        yText: (200 / sizeHeight) * height
+        yText: (185 / sizeHeight) * height
     },
     btnGlobalScore: {
         x: (830 / sizeWidth) * width + disX,
-        y: (205 / sizeHeight) * height,
+        y: (190 / sizeHeight) * height,
         width: (225 / sizeWidth) * width,
-        height: (85 / sizeHeight) * height,
+        height: (70 / sizeHeight) * height,
         keyBackground: "buttonRank",
         key: "global",
         xIcon: (890 / sizeWidth) * width + disX,
-        yIcon: (193 / sizeHeight) * height,
+        yIcon: (177 / sizeHeight) * height,
         widthIcon: 0.15 * (225 / sizeWidth) * width,
-        heightIcon: 0.4 * (85 / sizeHeight) * height,
+        heightIcon: 0.4 * (70 / sizeHeight) * height,
         textIcon: "Weekly",
         fontSizeIcon: (18 / sizeWidth) * width,
         colorText: "white",
         fontWeight: "bold",
         fontFamily: "Arial",
         xTextIcon: (890 / sizeWidth) * width + disX,
-        yTextIcon: (220 / sizeHeight) * height,
+        yTextIcon: (205 / sizeHeight) * height,
         textContent: "Global",
         fontSize: (30 / sizeWidth) * width,
         xText: (800 / sizeWidth) * width + disX,
-        yText: (200 / sizeHeight) * height
+        yText: (185 / sizeHeight) * height
     },
     myScore: {
         x: (1 / 2) * width + disX,
         y: (285 / sizeHeight) * height,
         width: (490 / sizeWidth) * width,
-        height: (60 / sizeHeight) * height,
-        keyBackground: "myScore",
+        height: (55 / sizeHeight) * height,
+        keyBackground: "rank1Background",
         profile: {
             key: "profile",
             x: (530 / sizeWidth) * width + disX,
             y: (285 / sizeHeight) * height,
             width: 0.12 * (490 / sizeWidth) * width,
-            height: 0.8 * (60 / sizeHeight) * height
+            height: 0.8 * (60 / sizeHeight) * height,
+            name: {
+                x: (610 / sizeWidth) * width + disX,
+                y: (285 / sizeHeight) * height,
+                text: "Nguyen",
+                colorText: "black",
+                fontWeight: "bold",
+                fontFamily: "Arial",
+                fontSize: (25 / sizeWidth) * width
+            }
         },
         iconMyRank: {
-            key: "buttonBlue",
+            key: "rank",
             x: (475 / sizeWidth) * width + disX,
             y: (285 / sizeHeight) * height,
             width: 0.1 * (490 / sizeWidth) * width,
-            height: 0.75 * (60 / sizeHeight) * height,
+            height: 0.75 * (55 / sizeHeight) * height,
             fontSize: (20 / sizeWidth) * width,
-            score: "10",
-            colorText: "white",
+            score: "1",
+            colorText: "black",
             fontWeight: "bold",
-            fontFamily: "Arial",
+            fontFamily: "Arial"
         },
-        textMyScore:{
+        textMyScore: {
             x: (775 / sizeWidth) * width + disX,
             y: (285 / sizeHeight) * height,
             score: "10",
-            colorText: "white",
+            colorText: "black",
             fontWeight: "bold",
-            fontFamily: "Arial", 
+            fontFamily: "Arial",
+            rank:1
         }
 
     },
     itemScore: {
         x: (1 / 2) * width + disX,
-        y: (350 / sizeHeight) * height,
+        y: (370 / sizeHeight) * height,
         width: (480 / sizeWidth) * width,
         height: (50 / sizeHeight) * height,
         marginTop: (60 / sizeHeight) * height,
-        key: "score",
-        profile:{
+        key: "rankBackground",
+        profile: {
             key: "profile",
-            x:(535 / sizeWidth) * width + disX,
-            y:(350 / sizeHeight) * height,
-            width:0.1 * (490 / sizeWidth) * width,
-            height:0.65 * (60 / sizeHeight) * height
+            x: (535 / sizeWidth) * width + disX,
+            y: (370 / sizeHeight) * height,
+            width: 0.1 * (490 / sizeWidth) * width,
+            height: 0.65 * (60 / sizeHeight) * height,
+            name: {
+                x: (585 / sizeWidth) * width + disX,
+                y: (350 / sizeHeight) * height,
+                text: "Ha",
+                colorText: "black",
+                fontWeight: "bold",
+                fontFamily: "Arial",
+                fontSize: (20 / sizeWidth) * width
+            }
         },
         iconMyRank: {
-            key: "buttonBlue",
+            key: "rank",
             x: (475 / sizeWidth) * width + disX,
-            y: (350 / sizeHeight) * height,
+            y: (370 / sizeHeight) * height,
             width: 0.1 * (480 / sizeWidth) * width,
             height: 0.75 * (50 / sizeHeight) * height,
             fontSize: (20 / sizeWidth) * width,
@@ -208,31 +227,35 @@ export let customConfig = {
             colorText: "white",
             fontWeight: "bold",
             fontFamily: "Arial",
-            marginTop:50
+            marginTop: 50
         },
-        textMyScore:{
+        textMyScore: {
             x: (775 / sizeWidth) * width + disX,
-            y: (350 / sizeHeight) * height,
+            y: (370 / sizeHeight) * height,
             score: "0000",
             colorText: "white",
             fontWeight: "bold",
-            fontFamily: "Arial", 
+            fontFamily: "Arial",
         },
-        buttonItemFight:{
-            keyBackground:"buttonBlue",
-            icon:{
-
+        buttonItemFight: {
+            keyBackground: "buttonBlue",
+            icon: {
+                key: "solo",
+                x: (850 / sizeWidth) * width + disX,
+                y: (370 / sizeHeight) * height,
+                width: 0.05 * (490 / sizeWidth) * width,
+                height: 0.05 * (490 / sizeWidth) * width
             },
             x: (850 / sizeWidth) * width + disX,
-            y: (350 / sizeHeight) * height,
-            width:0.19 * (490 / sizeWidth) * width,
-            height:0.8 * (60 / sizeHeight) * height
+            y: (370 / sizeHeight) * height,
+            width: 0.19 * (490 / sizeWidth) * width,
+            height: 0.8 * (60 / sizeHeight) * height
         }
 
     },
     btnPlayWithFriends: {
         x: (1 / 2) * width + disX,
-        y: (545 / sizeHeight) * height,
+        y: (575 / sizeHeight) * height,
         width: (490 / sizeWidth) * width,
         height: (70 / sizeHeight) * height,
         keyBackground: "backGreen",
@@ -246,36 +269,36 @@ export let customConfig = {
     btnIconPlayWithFriends: {
         keyBackground: "blue",
         x: (845 / sizeWidth) * width + disX,
-        y: (545 / sizeHeight) * height,
+        y: (575 / sizeHeight) * height,
         width: 0.12 * (490 / sizeWidth) * width,
         height: 0.7 * (70 / sizeHeight) * height,
-        key: "friend",
-        widthIcon: 0.1 * (490 / sizeWidth) * width,
+        key: "playfriend",
+        widthIcon: 0.2 * (490 / sizeWidth) * width,
         heightIcon: 0.6 * (70 / sizeHeight) * height,
     },
     btnChooseSkin: {
         x: (525 / sizeWidth) * width + disX,
-        y: (635 / sizeHeight) * height,
+        y: (670 / sizeHeight) * height,
         width: (245 / sizeWidth) * width,
         height: (100 / sizeHeight) * height,
         keyBackground: "buttonBlue",
         key: "ball1",
         xIcon: (455 / sizeWidth) * width + disX,
-        yIcon: (635 / sizeHeight) * height,
+        yIcon: (670 / sizeHeight) * height,
         widthIcon: 0.04 * (535 / sizeWidth) * width + disX,
-        heightIcon: 0.04 * (635 / sizeHeight) * height,
+        heightIcon: 0.04 * (670 / sizeHeight) * height,
         colorText: "white",
         fontWeight: "bold",
         fontFamily: "Arial",
         textContent: "Skins",
         fontSize: (40 / sizeWidth) * width,
         xText: (550 / sizeWidth) * width + disX,
-        yText: (635 / sizeHeight) * height
+        yText: (670 / sizeHeight) * height
 
     },
     btnPlayGame: {
         x: (810 / sizeWidth) * width + disX,
-        y: (635 / sizeHeight) * height,
+        y: (670 / sizeHeight) * height,
         width: (245 / sizeWidth) * width,
         height: (100 / sizeHeight) * height,
         key: "buttonOrgane",
@@ -285,7 +308,7 @@ export let customConfig = {
         textContent: "Play",
         fontSize: (40 / sizeWidth) * width,
         xText: (810 / sizeWidth) * width + disX,
-        yText: (635 / sizeHeight) * height
+        yText: (670 / sizeHeight) * height
     },
     sliderSkin: {
         background: {
@@ -320,7 +343,7 @@ export let customConfig = {
             key: "planets",
             x: 0.9 * width / 2 + 50,
             tweenX: 0.05 * width,
-            duration: 1000,
+            duration: 500,
             ease: "Power1"
         },
     }
@@ -353,10 +376,21 @@ export let AssetsMenu = [
     { key: "red", url: "./src/games/ver1/assets/Red.png", type: 0 },
     { key: "blue", url: "./src/games/ver1/assets/Blue.png", type: 0 },
     { key: "myScore", url: "./src/games/ver1/assets/yellow.jpeg", type: 0 },
-    { key: "score", url: "./src/games/ver1/assets/backitem.jpeg", type: 0 },
+    { key: "rankBackground", url: "./src/games/ver1/assets/Rank-n-bg.png", type: 0 },
+    { key: "rank1Background", url: "./src/games/ver1/assets/Rank-1-bg.png", type: 0 },
+    
     { key: "backLeft", url: "./src/games/ver1/assets/backleft.jpg", type: 0 },
-    { key: "backGreen", url: "./src/games/ver1/assets/green.jpeg", type: 0 },
+    { key: "backGreen", url: "./src/games/ver1/assets/Play wwith friend.png", type: 0 },
     { key: "profile", url: "./src/games/ver1/assets/profile.jpg", type: 0 },
+    { key: "rank1", url: "./src/games/ver1/assets/Rank-1.png", type: 0 },
+    { key: "rank2", url: "./src/games/ver1/assets/Rank-2.png", type: 0 },
+    { key: "rank3", url: "./src/games/ver1/assets/Rank-3.png", type: 0 },
+    { key: "rank", url: "./src/games/ver1/assets/Rank-n.png", type: 0 },
+    { key: "solo", url: "./src/games/ver1/assets/Solo-with.png", type: 0 },
+    { key: "playfriend", url: "./src/games/ver1/assets/friend-invite.png", type: 0 },
+    
+    { key: "music", url: "./src/games/ver1/assets/music.mp3", type: 2 },
+    
 ];
 export let AssetsMain = [
     { key: "ball1", url: "./src/games/ver1/assets/ball.png", type: 0 },
@@ -369,4 +403,5 @@ export let AssetsMain = [
     { key: 'gift5', url: './src/games/ver1/assets/gift5a.png', type: 0 },
     { key: 'gift10', url: './src/games/ver1/assets/gift10.png', type: 0 },
     { key: 'holes', url: './src/games/ver1/assets/holes-sheet.png', type: 1 },
+    { key: "music", url: "./src/games/ver1/assets/music.mp3", type: 2 },
 ];

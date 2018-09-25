@@ -30,7 +30,7 @@ const config: GameConfig = {
         default: "matter",
         matter: {
             gravity: { y: 1 },
-            debug: false
+            debug: true
         }
     },
     backgroundColor: cusConfig.backgroundColor,

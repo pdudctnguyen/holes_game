@@ -48,6 +48,10 @@ export class GameScene extends Phaser.Scene {
           this.load.spritesheet(listAsset[i].key, listAsset[i].url, { frameWidth: 128, frameHeight: 128 });
           break;
         }
+        case 2:{
+          this.load.audio(AssetsMain[i].key, AssetsMain[i].url, { frameWidth: 128, frameHeight: 128 });
+          break;
+        }
       }
     }
   }

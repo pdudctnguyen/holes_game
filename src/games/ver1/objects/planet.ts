@@ -12,13 +12,16 @@ export class Planet {
             });
         }
         this.planet.anims.play(params.skin, true);
-        this.planet.setDisplaySize(params.w, params.h);
-        this.planet.setOrigin(0, 0);
-        this.setCircle(params.radius);
+        // this.planet.setOrigin(0, 0);
         this.setFriction(params.friction);
         this.setBounce(params.bounce);
         this.setVelocityX(params.velocityX);
         this.setAngularVelocity(params.anguVel);
+        let scalex = params.radius / this.planet.width;
+        this.planet.setDisplaySize(params.w, params.h);
+        this.setCircle(80);
+        
+
     }
     public setFriction(val) {
         this.planet.setFriction(val);
