@@ -196,16 +196,16 @@ export let customConfig = {
     itemScore: {
         x: (1 / 2) * width + disX,
         y: (370 / sizeHeight) * height,
-        width: (480 / sizeWidth) * width,
+        width: (470 / sizeWidth) * width,
         height: (50 / sizeHeight) * height,
-        marginTop: (60 / sizeHeight) * height,
+        marginTop: (70 / sizeHeight) * height,
         key: "rankBackground",
         profile: {
             key: "profile",
             x: (535 / sizeWidth) * width + disX,
             y: (370 / sizeHeight) * height,
-            width: 0.1 * (490 / sizeWidth) * width,
-            height: 0.65 * (60 / sizeHeight) * height,
+            width: 0.1 * (470 / sizeWidth) * width,
+            height: 0.65 * (70 / sizeHeight) * height,
             name: {
                 x: (585 / sizeWidth) * width + disX,
                 y: (350 / sizeHeight) * height,
@@ -220,14 +220,14 @@ export let customConfig = {
             key: "rank",
             x: (475 / sizeWidth) * width + disX,
             y: (370 / sizeHeight) * height,
-            width: 0.1 * (480 / sizeWidth) * width,
+            width: 0.1 * (470 / sizeWidth) * width,
             height: 0.75 * (50 / sizeHeight) * height,
             fontSize: (20 / sizeWidth) * width,
             score: "10",
             colorText: "white",
             fontWeight: "bold",
             fontFamily: "Arial",
-            marginTop: 50
+            marginTop: 55
         },
         textMyScore: {
             x: (775 / sizeWidth) * width + disX,
@@ -243,19 +243,19 @@ export let customConfig = {
                 key: "solo",
                 x: (850 / sizeWidth) * width + disX,
                 y: (370 / sizeHeight) * height,
-                width: 0.05 * (490 / sizeWidth) * width,
-                height: 0.05 * (490 / sizeWidth) * width
+                width: 0.05 * (470 / sizeWidth) * width,
+                height: 0.05 * (470 / sizeWidth) * width
             },
             x: (850 / sizeWidth) * width + disX,
             y: (370 / sizeHeight) * height,
-            width: 0.19 * (490 / sizeWidth) * width,
+            width: 0.19 * (470 / sizeWidth) * width,
             height: 0.8 * (60 / sizeHeight) * height
         }
 
     },
     btnPlayWithFriends: {
         x: (1 / 2) * width + disX,
-        y: (575 / sizeHeight) * height,
+        y: (610 / sizeHeight) * height,
         width: (490 / sizeWidth) * width,
         height: (70 / sizeHeight) * height,
         keyBackground: "backGreen",
@@ -269,7 +269,7 @@ export let customConfig = {
     btnIconPlayWithFriends: {
         keyBackground: "blue",
         x: (845 / sizeWidth) * width + disX,
-        y: (575 / sizeHeight) * height,
+        y: (610 / sizeHeight) * height,
         width: 0.12 * (490 / sizeWidth) * width,
         height: 0.7 * (70 / sizeHeight) * height,
         key: "playfriend",
@@ -278,27 +278,27 @@ export let customConfig = {
     },
     btnChooseSkin: {
         x: (525 / sizeWidth) * width + disX,
-        y: (670 / sizeHeight) * height,
+        y: (700 / sizeHeight) * height,
         width: (245 / sizeWidth) * width,
         height: (100 / sizeHeight) * height,
         keyBackground: "buttonBlue",
         key: "ball1",
         xIcon: (455 / sizeWidth) * width + disX,
-        yIcon: (670 / sizeHeight) * height,
-        widthIcon: 0.04 * (535 / sizeWidth) * width + disX,
-        heightIcon: 0.04 * (670 / sizeHeight) * height,
+        yIcon: (700 / sizeHeight) * height,
+        widthIcon: 0.08 * (535 / sizeWidth) * width + disX,
+        heightIcon: 0.04 * (700 / sizeHeight) * height,
         colorText: "white",
         fontWeight: "bold",
         fontFamily: "Arial",
         textContent: "Skins",
         fontSize: (40 / sizeWidth) * width,
         xText: (550 / sizeWidth) * width + disX,
-        yText: (670 / sizeHeight) * height
+        yText: (700 / sizeHeight) * height
 
     },
     btnPlayGame: {
         x: (810 / sizeWidth) * width + disX,
-        y: (670 / sizeHeight) * height,
+        y: (700 / sizeHeight) * height,
         width: (245 / sizeWidth) * width,
         height: (100 / sizeHeight) * height,
         key: "buttonOrgane",
@@ -308,7 +308,7 @@ export let customConfig = {
         textContent: "Play",
         fontSize: (40 / sizeWidth) * width,
         xText: (810 / sizeWidth) * width + disX,
-        yText: (670 / sizeHeight) * height
+        yText: (700 / sizeHeight) * height
     },
     sliderSkin: {
         background: {
