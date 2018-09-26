@@ -116,44 +116,68 @@ export class MenuScene extends Phaser.Scene {
     this.input.on('pointerup', function (pointer) {
       if (touchY2 == touchY || touchX <= __this.myScore.x - __this.myScore.width * __this.myScore._scaleX / 2 || touchX >= __this.myScore.x + __this.myScore.width * __this.myScore._scaleX / 2 || touchY <= __this.myScore.y + __this.myScore.height * __this.myScore._scaleX / 2 || touchY >= __this.btnPlayWithFriends.y - __this.btnPlayWithFriends.height * __this.btnPlayWithFriends._scaleX / 2) {
         return;
-      } else if (touchY2 < touchY) {
+      } else if (touchY2 < touchY - 15) {
         isUp = true;
-        for (let i = 0; i < __this.itemListScore.length; i++) {
-          __this.itemListScore[i].children.each(function (enemy) {
-            __this.tweens.add({
-              targets: enemy,
-              y: enemy.y - 200,
-              duration: 500,
-              ease: 'Power2',
-              onUpdate: function () {
-                if (enemy.y <= __this.myScore.y || enemy.y >= __this.btnPlayWithFriends.y) {
-                  enemy.setAlpha(0);
-                } else {
-                  enemy.setAlpha(1);
+        let allow = true;
+        __this.itemListScore[__this.itemListScore.length - 1].children.each(function (enemy) {
+          if (enemy.y < customConfig.itemScore.y + 3 * customConfig.itemScore.marginTop) {
+            allow = false;
+            return;
+          }
+        })
+        console.log(allow);
+        if (allow) {
+          for (let i = 0; i < __this.itemListScore.length; i++) {
+
+            __this.itemListScore[i].children.each(function (enemy) {
+
+              __this.tweens.add({
+                targets: enemy,
+                y: enemy.y - 3.1*customConfig.itemScore.marginTop,
+                duration: 500,
+                ease: 'Power2',
+                onUpdate: function () {
+                  if (enemy.y <= __this.myScore.y || enemy.y >= __this.btnPlayWithFriends.y) {
+                    enemy.setAlpha(0);
+                  } else {
+                    enemy.setAlpha(1);
+                  }
                 }
-              }
-            });
-          }, __this);
+              });
+            }, __this);
+          }
         }
-      } else {
+
+      } else if (touchY2 > touchY + 15) {
         isUp = false;
-        for (let i = 0; i < __this.itemListScore.length; i++) {
-          __this.itemListScore[i].children.each(function (enemy) {
-            __this.tweens.add({
-              targets: enemy,
-              y: enemy.y + 200,
-              duration: 500,
-              ease: 'Power2',
-              onUpdate: function () {
-                if (enemy.y <= __this.myScore.y || enemy.y >= __this.btnPlayWithFriends.y) {
-                  enemy.setAlpha(0);
-                } else {
-                  enemy.setAlpha(1);
+        let allow = true;
+        __this.itemListScore[0].children.each(function (enemy) {
+          if (enemy.y == customConfig.itemScore.y) {
+            allow = false;
+            return;
+          }
+        });
+        console.log(allow);
+        if (allow) {
+          for (let i = 0; i < __this.itemListScore.length; i++) {
+            __this.itemListScore[i].children.each(function (enemy) {
+              __this.tweens.add({
+                targets: enemy,
+                y: enemy.y + 3*customConfig.itemScore.marginTop,
+                duration: 500,
+                ease: 'Power2',
+                onUpdate: function () {
+                  if (enemy.y <= __this.myScore.y || enemy.y >= __this.btnPlayWithFriends.y) {
+                    enemy.setAlpha(0);
+                  } else {
+                    enemy.setAlpha(1);
+                  }
                 }
-              }
-            });
-          }, __this);
+              });
+            }, __this);
+          }
         }
+
       }
     });
     this.music = this.sound.add('music');
@@ -377,7 +401,7 @@ export class MenuScene extends Phaser.Scene {
         this.itemSlideSkin.x = limitprev1;
         if (this.itemSlideSkinPrevTmp.frame.name >= this.numSkin - 2) {
           tmp = this.itemSlideSkinPrevTmp.frame.name - this.numSkin;
-        }else{
+        } else {
           tmp = this.itemSlideSkinPrevTmp.frame.name;
         }
         nextIfType = tmp + 2;
@@ -387,7 +411,7 @@ export class MenuScene extends Phaser.Scene {
         this.itemSlideSkinNext.x = limitprev1;
         if (this.itemSlideSkinPrev.frame.name >= this.numSkin - 2) {
           tmp = this.itemSlideSkinPrev.frame.name - this.numSkin;
-        }else{
+        } else {
           tmp = this.itemSlideSkinPrev.frame.name;
         }
         nextIfType = tmp + 2;
@@ -396,8 +420,8 @@ export class MenuScene extends Phaser.Scene {
       if (this.itemSlideSkinNextTmp.x <= limitnext) {
         this.itemSlideSkinNextTmp.x = limitprev1;
         if (this.itemSlideSkin.frame.name >= this.numSkin - 2) {
-          tmp =this.itemSlideSkin.frame.name - this.numSkin;
-        }else{
+          tmp = this.itemSlideSkin.frame.name - this.numSkin;
+        } else {
           tmp = this.itemSlideSkin.frame.name;
         }
         nextIfType = tmp + 2;
@@ -406,8 +430,8 @@ export class MenuScene extends Phaser.Scene {
       if (this.itemSlideSkinPrev.x <= limitnext) {
         this.itemSlideSkinPrev.x = limitprev1;
         if (this.itemSlideSkinNextTmp.frame.name >= this.numSkin - 2) {
-          tmp =this.itemSlideSkinNextTmp.frame.name - this.numSkin;
-        }else{
+          tmp = this.itemSlideSkinNextTmp.frame.name - this.numSkin;
+        } else {
           tmp = this.itemSlideSkinNextTmp.frame.name;
         }
         nextIfType = tmp + 2;
@@ -417,7 +441,7 @@ export class MenuScene extends Phaser.Scene {
         this.itemSlideSkinPrevTmp.x = limitprev1;
         if (this.itemSlideSkinNext.frame.name >= this.numSkin - 2) {
           tmp = this.itemSlideSkinNext.frame.name - this.numSkin;
-        }else{
+        } else {
           tmp = this.itemSlideSkinNext.frame.name;
         }
         nextIfType = tmp + 2;
@@ -435,10 +459,10 @@ export class MenuScene extends Phaser.Scene {
       if (this.itemSlideSkin.x >= limitprev) {
         this.itemSlideSkin.x = limitnext1;
         if (this.itemSlideSkinNextTmp.frame.name == 1) {
-          prevIfType = this.numSkin; 
-        }else if((this.itemSlideSkinNextTmp.frame.name== 0)){
+          prevIfType = this.numSkin;
+        } else if ((this.itemSlideSkinNextTmp.frame.name == 0)) {
           prevIfType = this.numSkin - 1;
-        }else{
+        } else {
           prevIfType = this.itemSlideSkinNextTmp.frame.name - 2;
         }
         console.log("main " + prevIfType);
@@ -448,10 +472,10 @@ export class MenuScene extends Phaser.Scene {
       if (this.itemSlideSkinNext.x >= limitprev) {
         this.itemSlideSkinNext.x = limitnext1;
         if (this.itemSlideSkinPrevTmp.frame.name == 1) {
-          prevIfType = this.numSkin; 
-        }else if((this.itemSlideSkinPrevTmp.frame.name== 0)){
+          prevIfType = this.numSkin;
+        } else if ((this.itemSlideSkinPrevTmp.frame.name == 0)) {
           prevIfType = this.numSkin - 1;
-        }else{
+        } else {
           prevIfType = this.itemSlideSkinPrevTmp.frame.name - 2;
         }
         console.log("next " + prevIfType);
@@ -461,10 +485,10 @@ export class MenuScene extends Phaser.Scene {
       if (this.itemSlideSkinNextTmp.x >= limitprev) {
         this.itemSlideSkinNextTmp.x = limitnext1;
         if (this.itemSlideSkinPrev.frame.name == 1) {
-          prevIfType = this.numSkin; 
-        }else if((this.itemSlideSkinPrev.frame.name== 0)){
+          prevIfType = this.numSkin;
+        } else if ((this.itemSlideSkinPrev.frame.name == 0)) {
           prevIfType = this.numSkin - 1;
-        }else{
+        } else {
           prevIfType = this.itemSlideSkinPrev.frame.name - 2;
         }
         console.log("nexttmp " + prevIfType);
@@ -474,10 +498,10 @@ export class MenuScene extends Phaser.Scene {
       if (this.itemSlideSkinPrev.x >= limitprev) {
         this.itemSlideSkinPrev.x = limitnext1;
         if (this.itemSlideSkinNext.frame.name == 1) {
-          prevIfType = this.numSkin; 
-        }else if((this.itemSlideSkinNext.frame.name== 0)){
+          prevIfType = this.numSkin;
+        } else if ((this.itemSlideSkinNext.frame.name == 0)) {
           prevIfType = this.numSkin - 1;
-        }else{
+        } else {
           prevIfType = this.itemSlideSkinNext.frame.name - 2;
         }
         console.log("prev " + prevIfType);
@@ -487,10 +511,10 @@ export class MenuScene extends Phaser.Scene {
       if (this.itemSlideSkinPrevTmp.x >= limitprev) {
         this.itemSlideSkinPrevTmp.x = limitnext1;
         if (this.itemSlideSkin.frame.name == 1) {
-          prevIfType = this.numSkin; 
-        }else if((this.itemSlideSkin.frame.name== 0)){
+          prevIfType = this.numSkin;
+        } else if ((this.itemSlideSkin.frame.name == 0)) {
           prevIfType = this.numSkin - 1;
-        }else{
+        } else {
           prevIfType = this.itemSlideSkin.frame.name - 2;
         }
         console.log("prevtmp " + prevIfType);
@@ -565,10 +589,10 @@ export class MenuScene extends Phaser.Scene {
     //load btn OK and close
     this.btnClosePopup = this.add.image(this.backgroundPopup.width - customConfig.sliderSkin.btnClose.paddingRight, customConfig.sliderSkin.btnClose.paddingTop, customConfig.sliderSkin.btnClose.key).setInteractive();
     this.iconClosePopup = this.add.image(this.backgroundPopup.width - customConfig.sliderSkin.btnClose.paddingRight, customConfig.sliderSkin.btnClose.paddingTop, customConfig.sliderSkin.iconClose.key).setInteractive();
-    
-    this.setSize(this.btnClosePopup,customConfig.sliderSkin.btnClose.width,customConfig.sliderSkin.btnClose.width);
-    this.setSize(this.iconClosePopup,customConfig.sliderSkin.iconClose.width,customConfig.sliderSkin.iconClose.width);
-    
+
+    this.setSize(this.btnClosePopup, customConfig.sliderSkin.btnClose.width, customConfig.sliderSkin.btnClose.width);
+    this.setSize(this.iconClosePopup, customConfig.sliderSkin.iconClose.width, customConfig.sliderSkin.iconClose.width);
+
     //load btn next, prev, menu
     this.btnNext = this.add.image(customConfig.sliderSkin.btnNext.x, customConfig.sliderSkin.btnNext.y, customConfig.sliderSkin.btnNext.key).setInteractive();
     this.btnPrev = this.add.image(customConfig.sliderSkin.btnPrev.x, customConfig.sliderSkin.btnPrev.y, customConfig.sliderSkin.btnPrev.key).setInteractive();
@@ -619,7 +643,7 @@ export class MenuScene extends Phaser.Scene {
       tmp.registry.set("skin", current);
       tmp.iconChooseSkin.anims.play('' + current, true);
       tmp.setSize(tmp.iconChooseSkin, customConfig.btnChooseSkin.widthIcon, customConfig.btnChooseSkin.heightIcon);
-   
+
       console.log(current);
     });
     this.btnClosePopup.on("pointerdown", function () {
