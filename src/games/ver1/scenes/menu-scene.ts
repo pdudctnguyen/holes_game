@@ -1,4 +1,5 @@
 let touchY, touchY2, touchX, isUp;
+let hasClick = true;
 import { AssetsMenu, customConfig } from '../const/config';
 export class MenuScene extends Phaser.Scene {
   private menuLeft;
@@ -133,7 +134,7 @@ export class MenuScene extends Phaser.Scene {
 
               __this.tweens.add({
                 targets: enemy,
-                y: enemy.y - 3.1*customConfig.itemScore.marginTop,
+                y: enemy.y - 3.1 * customConfig.itemScore.marginTop,
                 duration: 500,
                 ease: 'Power2',
                 onUpdate: function () {
@@ -163,7 +164,7 @@ export class MenuScene extends Phaser.Scene {
             __this.itemListScore[i].children.each(function (enemy) {
               __this.tweens.add({
                 targets: enemy,
-                y: enemy.y + 3*customConfig.itemScore.marginTop,
+                y: enemy.y + 3 * customConfig.itemScore.marginTop,
                 duration: 500,
                 ease: 'Power2',
                 onUpdate: function () {
@@ -342,7 +343,7 @@ export class MenuScene extends Phaser.Scene {
     item.setScale(1);
     item.setAlpha(0.4);
   }
-  private checkToSetScale(item, x_new, type): void {
+  private checkToSetScale(item, x_new, check): void {
     let center = customConfig.sliderSkin.item.x;
     let limitprev1 = customConfig.sliderSkin.item.x + 3 * customConfig.sliderSkin.item.padding;
     let limitnext1 = customConfig.sliderSkin.item.x - 3 * customConfig.sliderSkin.item.padding;
@@ -362,6 +363,12 @@ export class MenuScene extends Phaser.Scene {
     }
     this.btnNext.setInteractive();
     this.btnPrev.setInteractive();
+    if (check) {
+      window.setTimeout(function () {
+        hasClick = true;
+      }, 700);
+
+    }
   }
   private findNext() {
     let rs;
@@ -538,7 +545,7 @@ export class MenuScene extends Phaser.Scene {
       duration: customConfig.sliderSkin.item.duration,
       delay: 0,
       onStart: this.prepareDrag(_this.itemSlideSkin),
-      onComplete: this.checkToSetScale(_this.itemSlideSkin, x_main, type)
+      onComplete: this.checkToSetScale(_this.itemSlideSkin, x_main, 0)
     });
 
     this.tweens.add({
@@ -548,7 +555,7 @@ export class MenuScene extends Phaser.Scene {
       duration: customConfig.sliderSkin.item.duration,
       delay: 0,
       onStart: this.prepareDrag(_this.itemSlideSkinPrev),
-      onComplete: this.checkToSetScale(_this.itemSlideSkinPrev, x_prev, type)
+      onComplete: this.checkToSetScale(_this.itemSlideSkinPrev, x_prev, 0)
     });
     this.tweens.add({
       targets: this.itemSlideSkinNext,
@@ -557,7 +564,7 @@ export class MenuScene extends Phaser.Scene {
       ease: customConfig.sliderSkin.item.ease,
       duration: customConfig.sliderSkin.item.duration,
       delay: 0,
-      onComplete: this.checkToSetScale(_this.itemSlideSkinNext, x_next, type)
+      onComplete: this.checkToSetScale(_this.itemSlideSkinNext, x_next, 0)
     });
     this.tweens.add({
       targets: this.itemSlideSkinNextTmp,
@@ -566,7 +573,7 @@ export class MenuScene extends Phaser.Scene {
       ease: customConfig.sliderSkin.item.ease,
       duration: customConfig.sliderSkin.item.duration,
       delay: 0,
-      onComplete: this.checkToSetScale(_this.itemSlideSkinNextTmp, x_nexttmp, type)
+      onComplete: this.checkToSetScale(_this.itemSlideSkinNextTmp, x_nexttmp, 0)
     });
     this.tweens.add({
       targets: this.itemSlideSkinPrevTmp,
@@ -575,7 +582,7 @@ export class MenuScene extends Phaser.Scene {
       ease: customConfig.sliderSkin.item.ease,
       duration: customConfig.sliderSkin.item.duration,
       delay: 0,
-      onComplete: this.checkToSetScale(_this.itemSlideSkinPrevTmp, x_prevtmp, type)
+      onComplete: this.checkToSetScale(_this.itemSlideSkinPrevTmp, x_prevtmp, 1)
     });
   }
   private openPopupChooseSkin(): void {
@@ -665,33 +672,36 @@ export class MenuScene extends Phaser.Scene {
     let prevtmp;
     let nexttmp;
     this.btnNext.on("pointerdown", function () {
-      if (current >= tmp.numSkin) {
-        current = 0;
-        console.log(1);
+      console.log(hasClick);
+      if (hasClick) {
+        if (current >= tmp.numSkin) {
+          current = 0;
+          console.log(1);
+        }
+        current++;
+        main = current;
+        prev = current - 1 < 0 ? tmp.numSkin : current - 1;
+        next = current + 1 > tmp.numSkin ? 0 : current + 1;
+        prevtmp = prev - 1 < 0 ? tmp.numSkin : prev - 1;
+        nexttmp = next + 1 > tmp.numSkin ? 0 : next + 1;
+        hasClick = false;
+        tmp.dragSlide("next", prevtmp, prev, main, next, nexttmp);
       }
-      current++;
-      main = current;
-      prev = current - 1 < 0 ? tmp.numSkin : current - 1;
-      next = current + 1 > tmp.numSkin ? 0 : current + 1;
-      prevtmp = prev - 1 < 0 ? tmp.numSkin : prev - 1;
-      nexttmp = next + 1 > tmp.numSkin ? 0 : next + 1;
-      tmp.dragSlide("next", prevtmp, prev, main, next, nexttmp);
-
     });
     this.btnPrev.on("pointerdown", function () {
-      if (current <= 0) {
-        current = tmp.numSkin;
+      if (hasClick) {
+        if (current <= 0) {
+          current = tmp.numSkin;
+        }
+        current--;
+        main = current;
+        prev = current - 1 < 0 ? tmp.numSkin : current - 1;
+        next = current + 1 > tmp.numSkin ? 0 : current + 1;
+        prevtmp = prev - 1 < 0 ? tmp.numSkin : prev - 1;
+        nexttmp = next + 1 > tmp.numSkin ? 0 : next + 1;
+        hasClick = false;
+        tmp.dragSlide("prev", prevtmp, prev, main, next, nexttmp);
       }
-      current--;
-
-      main = current;
-      prev = current - 1 < 0 ? tmp.numSkin : current - 1;
-      next = current + 1 > tmp.numSkin ? 0 : current + 1;
-      prevtmp = prev - 1 < 0 ? tmp.numSkin : prev - 1;
-      nexttmp = next + 1 > tmp.numSkin ? 0 : next + 1;
-      tmp.dragSlide("prev", prevtmp, prev, main, next, nexttmp);
-
-
     });
   }
   private generateHexColor() {
