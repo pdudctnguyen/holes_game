@@ -20,7 +20,7 @@ export let customConfig = {
     },
     hole: {
         startY: (6.5 / 10) * height,
-        radius: (128 / sizeWidth) * width,
+        radius: (105 / sizeWidth) * width,
         numFrames: 4,
         distanceY: 0.14 * height,
         randomStepY: 0.05 * height,
@@ -29,7 +29,7 @@ export let customConfig = {
     planet: {
         startY: (8 / 10) * height,
         startX: (2 / 5) * width,
-        radius: (128 / sizeWidth) * width,
+        radius: (95 / sizeWidth) * width,
         friction: 0.005,
         bounce: 0.6,
         velocityX: 2,
@@ -243,12 +243,12 @@ export let customConfig = {
                 key: "solo",
                 x: (850 / sizeWidth) * width + disX,
                 y: (370 / sizeHeight) * height,
-                width: 0.05 * (470 / sizeWidth) * width,
+                width: 0.08 * (470 / sizeWidth) * width,
                 height: 0.05 * (470 / sizeWidth) * width
             },
             x: (850 / sizeWidth) * width + disX,
             y: (370 / sizeHeight) * height,
-            width: 0.19 * (470 / sizeWidth) * width,
+            width: 0.2 * (470 / sizeWidth) * width,
             height: 0.8 * (60 / sizeHeight) * height
         }
 
@@ -268,7 +268,7 @@ export let customConfig = {
     },
     btnIconPlayWithFriends: {
         keyBackground: "blue",
-        x: (845 / sizeWidth) * width + disX,
+        x: (850 / sizeWidth) * width + disX,
         y: (610 / sizeHeight) * height,
         width: 0.12 * (490 / sizeWidth) * width,
         height: 0.7 * (70 / sizeHeight) * height,
@@ -326,7 +326,12 @@ export let customConfig = {
         btnClose: {
             paddingRight: 50,
             paddingTop: 100,
-            key: "close"
+            key: "closeBackground",
+            width:(80 / sizeWidth) * width
+        },
+        iconClose:{
+            key: "close",
+            width:0.8*(80 / sizeWidth) * width
         },
         btnNext: {
             x: 0.9 * width - 50,
@@ -355,7 +360,7 @@ export let AssetsMenu = [
     { key: "play", url: "./src/games/ver1/assets/play.png", type: 0 },
     { key: "playwfriends", url: "./src/games/ver1/assets/playfriends.png", type: 0 },
     { key: 'skin', url: './src/games/ver1/assets/skinl.png', type: 0 },
-    { key: 'close', url: './src/games/ver1/assets/close.png', type: 0 },
+    { key: 'closeBackground', url: './src/games/ver1/assets/Red.png', type: 0 },
     { key: 'background', url: './src/games/ver1/assets/backpopup.png', type: 0 },
     { key: 'planets', url: './src/games/ver1/assets/planets-sheet.png', type: 1 },
     { key: "ball", url: "./src/games/ver1/assets/ball.png", type: 0 },
@@ -388,7 +393,7 @@ export let AssetsMenu = [
     { key: "rank", url: "./src/games/ver1/assets/Rank-n.png", type: 0 },
     { key: "solo", url: "./src/games/ver1/assets/Solo-with.png", type: 0 },
     { key: "playfriend", url: "./src/games/ver1/assets/friend-invite.png", type: 0 },
-    
+    { key: "close", url: "./src/games/ver1/assets/Close x.png", type: 0 },
     { key: "music", url: "./src/games/ver1/assets/music.mp3", type: 2 },
     
 ];

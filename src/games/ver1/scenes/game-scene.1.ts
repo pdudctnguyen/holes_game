@@ -18,7 +18,6 @@ export class GameScene extends Phaser.Scene {
   private area2;
   private alpha;
   private score;
-  private angleText;
   private angle1;
   private scoreText;
   private listHoles;
@@ -65,8 +64,6 @@ export class GameScene extends Phaser.Scene {
     this.cameras.main.setBounds(customConfig.camera.bound[0], customConfig.camera.bound[1], customConfig.camera.bound[2], customConfig.camera.bound[3]);
     this.matter.world.setBounds(customConfig.matter.bound[0], customConfig.matter.bound[1], customConfig.matter.bound[2], customConfig.matter.bound[3]);
     this.scoreText = this.add.text(300, 480, "YOURS: " + this.score, { fontSize: '50px', fill: 'red', fontWeight: '700' });
-    this.angleText = this.add.text(100, 100, "YOURS: " + this.angle1, { fontSize: '30px', fill: 'red', fontWeight: '700' });
-
     this.input.addPointer();
     this.input.addPointer();
     this.planet = new Planet({
@@ -151,7 +148,6 @@ export class GameScene extends Phaser.Scene {
     this.zone1.setScrollFactor(0);
     this.zone2.setScrollFactor(0);
     this.scoreText.setScrollFactor(0);
-    this.angleText.setScrollFactor(0);
   }
   openDie(): void {
 

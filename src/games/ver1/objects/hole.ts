@@ -5,8 +5,10 @@ export class Hole {
     constructor(params) {
         this.warn = params.scene.matter.add.sprite(params.x, params.y, params.key);
         this.warn.anims.play('hole1', true);
-        this.warn.setDisplaySize(params.w, params.h);
-        this.setCircle(params.radius);
+        // this.warn.setDisplaySize(params.w, params.h);
+        let scalex = params.radius / this.warn.width;
+        this.warn.setCircle();
+        this.warn.setScale(scalex);
         this.warn.setStatic(params.isStatic);
         this.x = params.x;
         this.y = params.y;

@@ -1,3 +1,4 @@
+let touchY, touchY2, touchX, isUp;
 import { AssetsMenu, customConfig } from '../const/config';
 export class MenuScene extends Phaser.Scene {
   private menuLeft;
@@ -5,6 +6,7 @@ export class MenuScene extends Phaser.Scene {
   private music;
   private playMusic;
   private iconVolume;
+  private iconVolumeMute;
   private btnHelp;
   private iconHelp;
   private titleGame;
@@ -31,6 +33,7 @@ export class MenuScene extends Phaser.Scene {
   private textItemName;
   private buttonItemFight;
   private iconItemFight;
+  private groupItemScore;
   private itemListScore;
   private btnPlayWithFriends;
   private textPlayWithFriends;
@@ -43,6 +46,7 @@ export class MenuScene extends Phaser.Scene {
   private textPlayGame;
   private backgroundPopup;
   private btnClosePopup;
+  private iconClosePopup;
   private btnOKPopup;
   private msgBox;
   private listHighScore;
@@ -53,6 +57,7 @@ export class MenuScene extends Phaser.Scene {
   private itemSlideSkinNextTmp;
   private itemSlideSkinPrev;
   private itemSlideSkinPrevTmp;
+  private groupItemSlide;
   private numSkin;
   constructor() {
     super({
@@ -89,20 +94,98 @@ export class MenuScene extends Phaser.Scene {
   }
   setSize(item, width, height): void {
     let scalex = width / item.width;
-    // let scaley = height / item.height;
-    // console.log(scalex, scaley, width, height);
     item.setScale(scalex);
-    // item.width = width;
-    // 50item.height = height;
-    // 50item.setDisplaySize(width,height);
-    // 50item.setOrigin(0.5,0.5);
-    // 50
   }
   create(): void {
+    for (let i = 0; i <= this.numSkin; i++) {
+      this.anims.create({
+        key: '' + i,
+        frames: [{ key: 'planets', frame: i }],
+        frameRate: 10
+      });
+    }
+    this.input.addPointer();
+    this.input.on('pointerdown', function (pointer) {
+      touchY = pointer.y;
+      touchX = pointer.x;
+    });
+    this.input.on('pointermove', function (pointer) {
+      touchY2 = pointer.y;
+    });
+    let __this = this;
+    this.input.on('pointerup', function (pointer) {
+      if (touchY2 == touchY || touchX <= __this.myScore.x - __this.myScore.width * __this.myScore._scaleX / 2 || touchX >= __this.myScore.x + __this.myScore.width * __this.myScore._scaleX / 2 || touchY <= __this.myScore.y + __this.myScore.height * __this.myScore._scaleX / 2 || touchY >= __this.btnPlayWithFriends.y - __this.btnPlayWithFriends.height * __this.btnPlayWithFriends._scaleX / 2) {
+        return;
+      } else if (touchY2 < touchY) {
+        isUp = true;
+        for (let i = 0; i < __this.itemListScore.length; i++) {
+          __this.itemListScore[i].children.each(function (enemy) {
+            __this.tweens.add({
+              targets: enemy,
+              y: enemy.y - 200,
+              duration: 500,
+              ease: 'Power2',
+              onUpdate: function () {
+                if (enemy.y <= __this.myScore.y || enemy.y >= __this.btnPlayWithFriends.y) {
+                  enemy.setAlpha(0);
+                } else {
+                  enemy.setAlpha(1);
+                }
+              }
+            });
+          }, __this);
+        }
+      } else {
+        isUp = false;
+        for (let i = 0; i < __this.itemListScore.length; i++) {
+          __this.itemListScore[i].children.each(function (enemy) {
+            __this.tweens.add({
+              targets: enemy,
+              y: enemy.y + 200,
+              duration: 500,
+              ease: 'Power2',
+              onUpdate: function () {
+                if (enemy.y <= __this.myScore.y || enemy.y >= __this.btnPlayWithFriends.y) {
+                  enemy.setAlpha(0);
+                } else {
+                  enemy.setAlpha(1);
+                }
+              }
+            });
+          }, __this);
+        }
+      }
+    });
     this.music = this.sound.add('music');
     this.music.play();
-    // this.menuLeft = this.add.image(customConfig.backLeft.x, customConfig.backLeft.y, customConfig.backLeft.key);
-    // this.setSize(this.menuLeft, customConfig.backLeft.width, customConfig.backLeft.height);
+    for (let i = 0; i < 40; i++) {
+      this.itemScore = this.add.image(customConfig.itemScore.x, customConfig.itemScore.y + i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.key);
+      this.setSize(this.itemScore, customConfig.itemScore.width, customConfig.itemScore.height);
+      this.iconItemRank = this.add.image(customConfig.itemScore.iconMyRank.x, customConfig.itemScore.iconMyRank.y + i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.iconMyRank.key + (i + 1 <= 3 ? ((i + 1) + "") : ""));
+      this.setSize(this.iconItemRank, customConfig.itemScore.iconMyRank.width, customConfig.itemScore.iconMyRank.height);
+      this.textItemRank = this.add.text(customConfig.itemScore.iconMyRank.x, customConfig.itemScore.iconMyRank.y + i * customConfig.itemScore.iconMyRank.marginTop, ("" + (i + 1)), { fontSize: customConfig.itemScore.iconMyRank.fontSize, fill: customConfig.itemScore.iconMyRank.colorText, fontFamily: customConfig.itemScore.iconMyRank.fontFamily });
+      this.setCenter(this.textItemRank);
+      this.itemProfile = this.add.image(customConfig.itemScore.profile.x, customConfig.itemScore.profile.y + i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.profile.key);
+      this.setSize(this.itemProfile, customConfig.itemScore.profile.width, customConfig.itemScore.profile.height);
+      this.textItemName = this.add.text(customConfig.itemScore.profile.name.x, customConfig.itemScore.profile.name.y + i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.profile.name.text, { fontSize: customConfig.itemScore.profile.name.fontSize, fill: customConfig.itemScore.profile.name.colorText, fontFamily: customConfig.itemScore.profile.name.fontFamily });
+      this.setCenter(this.textItemName);
+      this.textItemScore = this.add.text(customConfig.itemScore.textMyScore.x, customConfig.itemScore.textMyScore.y + i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.textMyScore.score, { fontSize: customConfig.itemScore.iconMyRank.fontSize, fill: customConfig.itemScore.iconMyRank.colorText, fontFamily: customConfig.itemScore.iconMyRank.fontFamily });
+      this.setCenter(this.textItemScore);
+      this.buttonItemFight = this.add.image(customConfig.itemScore.buttonItemFight.x, customConfig.itemScore.buttonItemFight.y + i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.buttonItemFight.keyBackground);
+      this.setSize(this.buttonItemFight, customConfig.itemScore.buttonItemFight.width, customConfig.itemScore.buttonItemFight.height);
+      this.iconItemFight = this.add.image(customConfig.itemScore.buttonItemFight.icon.x, customConfig.itemScore.buttonItemFight.icon.y + i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.buttonItemFight.icon.key);
+      this.setSize(this.iconItemFight, customConfig.itemScore.buttonItemFight.icon.width, customConfig.itemScore.buttonItemFight.icon.height);
+      this.groupItemScore = this.add.group();
+      this.groupItemScore.add(this.itemScore);
+      this.groupItemScore.add(this.iconItemRank);
+      this.groupItemScore.add(this.textItemRank);
+      this.groupItemScore.add(this.itemProfile);
+      this.groupItemScore.add(this.textItemName);
+      this.groupItemScore.add(this.textItemScore);
+      this.groupItemScore.add(this.buttonItemFight);
+      this.groupItemScore.add(this.iconItemFight);
+      this.itemListScore.push(this.groupItemScore);
+    }
 
     this.titleGame = this.add.image(customConfig.imgTitle.x, customConfig.imgTitle.y, customConfig.imgTitle.key);
     this.setSize(this.titleGame, customConfig.imgTitle.width, customConfig.imgTitle.height);
@@ -130,7 +213,7 @@ export class MenuScene extends Phaser.Scene {
 
     this.myScore = this.add.image(customConfig.myScore.x, customConfig.myScore.y, customConfig.myScore.keyBackground);
     this.setSize(this.myScore, customConfig.myScore.width, customConfig.myScore.height);
-    this.iconMyRank = this.add.image(customConfig.myScore.iconMyRank.x, customConfig.myScore.iconMyRank.y, customConfig.myScore.iconMyRank.key + (customConfig.myScore.textMyScore.rank<=3?customConfig.myScore.textMyScore.rank+"":""));
+    this.iconMyRank = this.add.image(customConfig.myScore.iconMyRank.x, customConfig.myScore.iconMyRank.y, customConfig.myScore.iconMyRank.key + (customConfig.myScore.textMyScore.rank <= 3 ? customConfig.myScore.textMyScore.rank + "" : ""));
     this.setSize(this.iconMyRank, customConfig.myScore.iconMyRank.width, customConfig.myScore.iconMyRank.height);
     this.textMyRank = this.add.text(customConfig.myScore.iconMyRank.x, customConfig.myScore.iconMyRank.y, customConfig.myScore.iconMyRank.score, { fontSize: customConfig.myScore.iconMyRank.fontSize, fill: customConfig.myScore.iconMyRank.colorText, fontFamily: customConfig.myScore.iconMyRank.fontFamily });
     this.setCenter(this.textMyRank);
@@ -140,30 +223,6 @@ export class MenuScene extends Phaser.Scene {
     this.setCenter(this.textMyName);
     this.textMyScore = this.add.text(customConfig.myScore.textMyScore.x, customConfig.myScore.textMyScore.y, customConfig.myScore.textMyScore.score, { fontSize: customConfig.myScore.iconMyRank.fontSize, fill: customConfig.myScore.iconMyRank.colorText, fontFamily: customConfig.myScore.iconMyRank.fontFamily });
     this.setCenter(this.textMyScore);
-
-
-
-    for (let i = 0; i < 4; i++) {
-      this.itemScore = this.add.image(customConfig.itemScore.x, customConfig.itemScore.y + i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.key);
-      this.setSize(this.itemScore, customConfig.itemScore.width, customConfig.itemScore.height);
-      this.iconItemRank = this.add.image(customConfig.itemScore.iconMyRank.x, customConfig.itemScore.iconMyRank.y + i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.iconMyRank.key + (i+1<=3?((i+1)+""):""));
-      this.setSize(this.iconItemRank, customConfig.itemScore.iconMyRank.width, customConfig.itemScore.iconMyRank.height);
-      this.textItemRank = this.add.text(customConfig.itemScore.iconMyRank.x, customConfig.itemScore.iconMyRank.y + i * customConfig.itemScore.iconMyRank.marginTop, ("" + (i + 1)), { fontSize: customConfig.itemScore.iconMyRank.fontSize, fill: customConfig.itemScore.iconMyRank.colorText, fontFamily: customConfig.itemScore.iconMyRank.fontFamily });
-      this.setCenter(this.textItemRank);
-      this.itemProfile = this.add.image(customConfig.itemScore.profile.x, customConfig.itemScore.profile.y + i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.profile.key);
-      this.setSize(this.itemProfile, customConfig.itemScore.profile.width, customConfig.itemScore.profile.height);
-      this.textItemName = this.add.text(customConfig.itemScore.profile.name.x, customConfig.itemScore.profile.name.y + i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.profile.name.text, { fontSize: customConfig.itemScore.profile.name.fontSize, fill: customConfig.itemScore.profile.name.colorText, fontFamily: customConfig.itemScore.profile.name.fontFamily });
-      this.setCenter(this.textItemName);
-      this.textItemScore = this.add.text(customConfig.itemScore.textMyScore.x, customConfig.itemScore.textMyScore.y + i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.textMyScore.score, { fontSize: customConfig.itemScore.iconMyRank.fontSize, fill: customConfig.itemScore.iconMyRank.colorText, fontFamily: customConfig.itemScore.iconMyRank.fontFamily });
-      this.setCenter(this.textItemScore);
-      this.buttonItemFight = this.add.image(customConfig.itemScore.buttonItemFight.x, customConfig.itemScore.buttonItemFight.y + i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.buttonItemFight.keyBackground);
-      this.setSize(this.buttonItemFight, customConfig.itemScore.buttonItemFight.width, customConfig.itemScore.buttonItemFight.height);
-      this.iconItemFight = this.add.image(customConfig.itemScore.buttonItemFight.icon.x, customConfig.itemScore.buttonItemFight.icon.y + i * customConfig.itemScore.iconMyRank.marginTop, customConfig.itemScore.buttonItemFight.icon.key);
-      this.setSize(this.iconItemFight, customConfig.itemScore.buttonItemFight.icon.width, customConfig.itemScore.buttonItemFight.icon.height);
-
-      // this.itemListScore.push(this.itemProfile);
-
-    }
 
     this.btnPlayWithFriends = this.add.image(customConfig.btnPlayWithFriends.x, customConfig.btnPlayWithFriends.y, customConfig.btnPlayWithFriends.keyBackground).setInteractive();
     this.setSize(this.btnPlayWithFriends, customConfig.btnPlayWithFriends.width, customConfig.btnPlayWithFriends.height);
@@ -176,7 +235,8 @@ export class MenuScene extends Phaser.Scene {
 
     this.btnChooseSkin = this.add.image(customConfig.btnChooseSkin.x, customConfig.btnChooseSkin.y, customConfig.btnChooseSkin.keyBackground).setInteractive();
     this.setSize(this.btnChooseSkin, customConfig.btnChooseSkin.width, customConfig.btnChooseSkin.height);
-    this.iconChooseSkin = this.add.image(customConfig.btnChooseSkin.xIcon, customConfig.btnChooseSkin.yIcon, customConfig.btnChooseSkin.key).setInteractive();
+    this.iconChooseSkin = this.add.sprite(customConfig.btnChooseSkin.xIcon, customConfig.btnChooseSkin.yIcon, customConfig.btnChooseSkin.key).setInteractive();
+    this.iconChooseSkin.anims.play('' + this.registry.get("skin"), true);
     this.setSize(this.iconChooseSkin, customConfig.btnChooseSkin.widthIcon, customConfig.btnChooseSkin.heightIcon);
     this.textChooseSkin = this.add.text(customConfig.btnChooseSkin.xText, customConfig.btnChooseSkin.yText, customConfig.btnChooseSkin.textContent, { fontSize: customConfig.btnChooseSkin.fontSize, fill: customConfig.btnChooseSkin.colorText, fontFamily: customConfig.btnChooseSkin.fontFamily });
     this.setCenter(this.textChooseSkin);
@@ -191,35 +251,48 @@ export class MenuScene extends Phaser.Scene {
     this.setSize(this.btnVolume, customConfig.btnVolume.width, customConfig.btnVolume.height);
     this.iconVolume = this.add.image(customConfig.btnVolume.x, customConfig.btnVolume.y, customConfig.btnVolume.key).setInteractive();
     this.setSize(this.iconVolume, 0.8 * customConfig.btnVolume.width, 0.8 * customConfig.btnVolume.height);
-
+    this.iconVolumeMute = this.add.image(customConfig.btnVolume.x, customConfig.btnVolume.y, customConfig.btnVolumeMute.key).setInteractive();
+    this.setSize(this.iconVolumeMute, 0.8 * customConfig.btnVolume.width, 0.8 * customConfig.btnVolume.height);
+    this.iconVolumeMute.setAlpha(0);
     this.btnHelp = this.add.image(customConfig.btnHelp.x, customConfig.btnHelp.y, customConfig.btnHelp.keyBackground).setInteractive();
     this.setSize(this.btnHelp, customConfig.btnHelp.width, customConfig.btnHelp.height);
     this.iconHelp = this.add.image(customConfig.btnHelp.x, customConfig.btnHelp.y, customConfig.btnHelp.key).setInteractive();
     this.setSize(this.iconHelp, 0.8 * customConfig.btnHelp.width, 0.8 * customConfig.btnHelp.height);
 
+    /* scroll */
+    let tmpthis = this;
+    for (let i = 0; i < this.itemListScore.length; i++) {
+      this.itemListScore[i].children.each(function (enemy) {
+        if (enemy.y <= tmpthis.myScore.y || enemy.y >= tmpthis.btnPlayWithFriends.y) {
+          enemy.setAlpha(0);
+        } else {
+          enemy.setAlpha(1);
+        }
+      }, tmpthis);
+    }
 
     this.btnPlayWithFriends.on("pointerdown", this.playWithFriends, this);
     this.btnChooseSkin.on("pointerdown", this.openPopupChooseSkin, this);
-    this.btnVolume.on("pointerdown", this.setMusic, this);
     this.iconVolume.on("pointerdown", this.setMusic, this);
+    this.iconVolumeMute.on("pointerdown", this.setMusic, this);
+
     //play game
     let tmp_this = this;
     this.btnPlayGame.on("pointerdown", function () {
-      console.log(1);
       tmp_this.scene.start("GameScene");
     });
   }
 
   update(): void {
-    if (this.itemSlideSkin) {
-      this.itemSlideSkin.angle++;
+    if (this.iconChooseSkin) {
+      this.iconChooseSkin.angle++;
     }
   }
   private initRegistry(): void {
     if (this.registry.get("skin")) {
       this.registry.set("skin", this.registry.get("skin"));
     } else {
-      this.registry.set("skin", 1);
+      this.registry.set("skin", 0);
     }
 
     this.registry.set("highscore", [0, 0, 0, 0, 0]);
@@ -231,15 +304,13 @@ export class MenuScene extends Phaser.Scene {
     this.playMusic = this.playMusic ? false : true;
     if (this.playMusic) {
       this.music.play();
-      this.iconVolume = null;
-      this.iconVolume = this.add.image(customConfig.btnVolume.x, customConfig.btnVolume.y, customConfig.btnVolume.key).setInteractive();
+      this.iconVolumeMute.setAlpha(0);
+      this.iconVolume.setAlpha(1);
     } else {
       this.music.stop();
-      this.iconVolume = null;
-      this.iconVolume = this.add.image(customConfig.btnVolume.x, customConfig.btnVolume.y, customConfig.btnVolumeMute.key).setInteractive();
+      this.iconVolume.setAlpha(0);
+      this.iconVolumeMute.setAlpha(1);
     }
-    this.setSize(this.iconVolume, 0.9 * customConfig.btnVolume.width, 0.9 * customConfig.btnVolume.height);
-    this.iconVolume.on("pointerdown", this.setMusic, this);
   }
   private prepareDrag(item): void {
     this.btnNext.setInteractive(false);
@@ -254,11 +325,9 @@ export class MenuScene extends Phaser.Scene {
     let limitprev2 = customConfig.sliderSkin.item.x + 2 * customConfig.sliderSkin.item.padding;
     let limitnext2 = customConfig.sliderSkin.item.x - 2 * customConfig.sliderSkin.item.padding;
     if (x_new == center) {
-      console.log(item);
       item.setScale(1.4);
       item.setAlpha(1);
     } else if (x_new >= limitprev2 || x_new <= limitnext2) {
-      console.log(item);
       window.setTimeout(function () {
         item.setAlpha(0);
       }, 500);
@@ -269,7 +338,30 @@ export class MenuScene extends Phaser.Scene {
     }
     this.btnNext.setInteractive();
     this.btnPrev.setInteractive();
+  }
+  private findNext() {
+    let rs;
+    let cmp = parseInt(customConfig.sliderSkin.item.x + customConfig.sliderSkin.item.padding + "");
+    console.log(this.itemSlideSkin.frame.name);
+    if (this.itemSlideSkin.x == cmp) {
+      rs = this.iconChooseSkin.frame.name;
+      console.log("main");
+    } else if (this.itemSlideSkinNext.x == cmp) {
+      rs = this.itemSlideSkinNext.frame.name;
+      console.log("next");
+    } else if (this.itemSlideSkinNextTmp.x == cmp) {
+      rs = this.itemSlideSkinNextTmp.frame.name;
+      console.log("nexttmp");
+    } else if (this.itemSlideSkinPrev.x == cmp) {
+      rs = this.itemSlideSkinPrev.frame.name;
+      console.log("prev");
+    } else if (this.itemSlideSkinPrevTmp.x == cmp) {
+      rs = this.itemSlideSkinPrevTmp.frame.name;
+      console.log("prevtmp");
+    }
 
+    console.log(rs);
+    return rs + 1 > this.numSkin ? 0 : rs + 1;
   }
   private dragSlide(type, prevtmp, prev, main, next, nexttmp): void {
     console.log(prevtmp, prev, main, next, nexttmp);
@@ -279,53 +371,133 @@ export class MenuScene extends Phaser.Scene {
     let limitnext = customConfig.sliderSkin.item.x - 3 * customConfig.sliderSkin.item.padding;
     let limitnext1 = customConfig.sliderSkin.item.x - 2 * customConfig.sliderSkin.item.padding;
     if (type == "next") {
+      let nextIfType;
+      let tmp;
       if (this.itemSlideSkin.x <= limitnext) {
         this.itemSlideSkin.x = limitprev1;
-        this.itemSlideSkin.anims.play('' + (nexttmp + 1 > this.numSkin ? 0 : nexttmp + 1), true);
-        // this.itemSlideSkinNext.x = limitprev;
+        if (this.itemSlideSkinPrevTmp.frame.name >= this.numSkin - 2) {
+          tmp = this.itemSlideSkinPrevTmp.frame.name - this.numSkin;
+        }else{
+          tmp = this.itemSlideSkinPrevTmp.frame.name;
+        }
+        nextIfType = tmp + 2;
+        this.itemSlideSkin.anims.play('' + nextIfType, true);
       }
       if (this.itemSlideSkinNext.x <= limitnext) {
         this.itemSlideSkinNext.x = limitprev1;
-        this.itemSlideSkinNext.anims.play('' + (nexttmp + 1 > this.numSkin ? 0 : nexttmp + 1), true);
+        if (this.itemSlideSkinPrev.frame.name >= this.numSkin - 2) {
+          tmp = this.itemSlideSkinPrev.frame.name - this.numSkin;
+        }else{
+          tmp = this.itemSlideSkinPrev.frame.name;
+        }
+        nextIfType = tmp + 2;
+        this.itemSlideSkinNext.anims.play('' + nextIfType, true);
       }
       if (this.itemSlideSkinNextTmp.x <= limitnext) {
         this.itemSlideSkinNextTmp.x = limitprev1;
-        this.itemSlideSkinNextTmp.anims.play('' + (nexttmp + 1 > this.numSkin ? 0 : nexttmp + 1), true);
+        if (this.itemSlideSkin.frame.name >= this.numSkin - 2) {
+          tmp =this.itemSlideSkin.frame.name - this.numSkin;
+        }else{
+          tmp = this.itemSlideSkin.frame.name;
+        }
+        nextIfType = tmp + 2;
+        this.itemSlideSkinNextTmp.anims.play('' + nextIfType, true);
       }
       if (this.itemSlideSkinPrev.x <= limitnext) {
         this.itemSlideSkinPrev.x = limitprev1;
-        this.itemSlideSkinPrev.anims.play('' + (nexttmp + 1 > this.numSkin ? 0 : nexttmp + 1), true);
+        if (this.itemSlideSkinNextTmp.frame.name >= this.numSkin - 2) {
+          tmp =this.itemSlideSkinNextTmp.frame.name - this.numSkin;
+        }else{
+          tmp = this.itemSlideSkinNextTmp.frame.name;
+        }
+        nextIfType = tmp + 2;
+        this.itemSlideSkinPrev.anims.play('' + nextIfType, true);
       }
       if (this.itemSlideSkinPrevTmp.x <= limitnext) {
         this.itemSlideSkinPrevTmp.x = limitprev1;
-        this.itemSlideSkinPrevTmp.anims.play('' + (nexttmp + 1 > this.numSkin ? 0 : nexttmp + 1), true);
+        if (this.itemSlideSkinNext.frame.name >= this.numSkin - 2) {
+          tmp = this.itemSlideSkinNext.frame.name - this.numSkin;
+        }else{
+          tmp = this.itemSlideSkinNext.frame.name;
+        }
+        nextIfType = tmp + 2;
+        this.itemSlideSkinPrevTmp.anims.play('' + nextIfType, true);
       }
+      console.log(nextIfType);
       x_main = this.itemSlideSkin.x - customConfig.sliderSkin.item.padding;
       x_next = this.itemSlideSkinNext.x - customConfig.sliderSkin.item.padding;
       x_prev = this.itemSlideSkinPrev.x - customConfig.sliderSkin.item.padding;
       x_nexttmp = this.itemSlideSkinNextTmp.x - customConfig.sliderSkin.item.padding;
       x_prevtmp = this.itemSlideSkinPrevTmp.x - customConfig.sliderSkin.item.padding;
     } else {
+      let prevIfType;
+      let tmp;
       if (this.itemSlideSkin.x >= limitprev) {
         this.itemSlideSkin.x = limitnext1;
-        this.itemSlideSkin.anims.play('' + (prevtmp - 1 < 0 ? this.numSkin : prevtmp - 1), true);
+        if (this.itemSlideSkinNextTmp.frame.name == 1) {
+          prevIfType = this.numSkin; 
+        }else if((this.itemSlideSkinNextTmp.frame.name== 0)){
+          prevIfType = this.numSkin - 1;
+        }else{
+          prevIfType = this.itemSlideSkinNextTmp.frame.name - 2;
+        }
+        console.log("main " + prevIfType);
+        // prevIfType = this.itemSlideSkinNextTmp.frame.name - 2 < -1 ? 0 : this.itemSlideSkinNextTmp.frame.name - 2;
+        this.itemSlideSkin.anims.play('' + prevIfType, true);
       }
       if (this.itemSlideSkinNext.x >= limitprev) {
         this.itemSlideSkinNext.x = limitnext1;
-        this.itemSlideSkinNext.anims.play('' + (prevtmp - 1 < 0 ? this.numSkin : prevtmp - 1), true);
+        if (this.itemSlideSkinPrevTmp.frame.name == 1) {
+          prevIfType = this.numSkin; 
+        }else if((this.itemSlideSkinPrevTmp.frame.name== 0)){
+          prevIfType = this.numSkin - 1;
+        }else{
+          prevIfType = this.itemSlideSkinPrevTmp.frame.name - 2;
+        }
+        console.log("next " + prevIfType);
+        // prevIfType = this.itemSlideSkinPrevTmp.frame.name - 2 < -1 ? 0 : this.itemSlideSkinPrevTmp.frame.name - 2;
+        this.itemSlideSkinNext.anims.play('' + prevIfType, true);
       }
       if (this.itemSlideSkinNextTmp.x >= limitprev) {
         this.itemSlideSkinNextTmp.x = limitnext1;
-        this.itemSlideSkinNextTmp.anims.play('' + (prevtmp - 1 < 0 ? this.numSkin : prevtmp - 1), true);
+        if (this.itemSlideSkinPrev.frame.name == 1) {
+          prevIfType = this.numSkin; 
+        }else if((this.itemSlideSkinPrev.frame.name== 0)){
+          prevIfType = this.numSkin - 1;
+        }else{
+          prevIfType = this.itemSlideSkinPrev.frame.name - 2;
+        }
+        console.log("nexttmp " + prevIfType);
+        // prevIfType = this.itemSlideSkinPrev.frame.name - 2 < -1 ? 0 : this.itemSlideSkinPrev.frame.name - 2;
+        this.itemSlideSkinNextTmp.anims.play('' + prevIfType, true);
       }
       if (this.itemSlideSkinPrev.x >= limitprev) {
         this.itemSlideSkinPrev.x = limitnext1;
-        this.itemSlideSkinPrev.anims.play('' + (prevtmp - 1 < 0 ? this.numSkin : prevtmp - 1), true);
+        if (this.itemSlideSkinNext.frame.name == 1) {
+          prevIfType = this.numSkin; 
+        }else if((this.itemSlideSkinNext.frame.name== 0)){
+          prevIfType = this.numSkin - 1;
+        }else{
+          prevIfType = this.itemSlideSkinNext.frame.name - 2;
+        }
+        console.log("prev " + prevIfType);
+        // prevIfType = this.itemSlideSkinNext.frame.name - 2 < -1 ? 0 : this.itemSlideSkinNext.frame.name - 2;
+        this.itemSlideSkinPrev.anims.play('' + prevIfType, true);
       }
       if (this.itemSlideSkinPrevTmp.x >= limitprev) {
         this.itemSlideSkinPrevTmp.x = limitnext1;
-        this.itemSlideSkinPrevTmp.anims.play('' + (prevtmp - 1 < 0 ? this.numSkin : prevtmp - 1), true);
+        if (this.itemSlideSkin.frame.name == 1) {
+          prevIfType = this.numSkin; 
+        }else if((this.itemSlideSkin.frame.name== 0)){
+          prevIfType = this.numSkin - 1;
+        }else{
+          prevIfType = this.itemSlideSkin.frame.name - 2;
+        }
+        console.log("prevtmp " + prevIfType);
+        // prevIfType = this.itemSlideSkin.frame.name - 2 < -1 ? 0 : this.itemSlideSkin.frame.name - 2;
+        this.itemSlideSkinPrevTmp.anims.play('' + prevIfType, true);
       }
+      console.log(prevIfType);
       x_main = this.itemSlideSkin.x + customConfig.sliderSkin.item.padding;
       x_next = this.itemSlideSkinNext.x + customConfig.sliderSkin.item.padding;
       x_prev = this.itemSlideSkinPrev.x + customConfig.sliderSkin.item.padding;
@@ -383,7 +555,7 @@ export class MenuScene extends Phaser.Scene {
     });
   }
   private openPopupChooseSkin(): void {
-    let current = 0;
+    let current = this.registry.get("skin");
     //make a group to hold all the elements
     this.msgBox = this.add.group();
     //load background Popup
@@ -392,7 +564,11 @@ export class MenuScene extends Phaser.Scene {
     this.backgroundPopup.height = customConfig.sliderSkin.background.height;
     //load btn OK and close
     this.btnClosePopup = this.add.image(this.backgroundPopup.width - customConfig.sliderSkin.btnClose.paddingRight, customConfig.sliderSkin.btnClose.paddingTop, customConfig.sliderSkin.btnClose.key).setInteractive();
-
+    this.iconClosePopup = this.add.image(this.backgroundPopup.width - customConfig.sliderSkin.btnClose.paddingRight, customConfig.sliderSkin.btnClose.paddingTop, customConfig.sliderSkin.iconClose.key).setInteractive();
+    
+    this.setSize(this.btnClosePopup,customConfig.sliderSkin.btnClose.width,customConfig.sliderSkin.btnClose.width);
+    this.setSize(this.iconClosePopup,customConfig.sliderSkin.iconClose.width,customConfig.sliderSkin.iconClose.width);
+    
     //load btn next, prev, menu
     this.btnNext = this.add.image(customConfig.sliderSkin.btnNext.x, customConfig.sliderSkin.btnNext.y, customConfig.sliderSkin.btnNext.key).setInteractive();
     this.btnPrev = this.add.image(customConfig.sliderSkin.btnPrev.x, customConfig.sliderSkin.btnPrev.y, customConfig.sliderSkin.btnPrev.key).setInteractive();
@@ -407,13 +583,7 @@ export class MenuScene extends Phaser.Scene {
     this.itemSlideSkinNextTmp.setAlpha(0);
     this.itemSlideSkinPrev.setAlpha(0);
     this.itemSlideSkinPrevTmp.setAlpha(0);
-    for (let i = 0; i <= this.numSkin; i++) {
-      this.anims.create({
-        key: '' + i,
-        frames: [{ key: 'planets', frame: i }],
-        frameRate: 10
-      });
-    }
+
     this.itemSlideSkinPrevTmp.anims.play('' + (this.numSkin - 1), true);
     this.itemSlideSkinPrev.anims.play('' + this.numSkin, true);
     this.itemSlideSkin.anims.play('0', true);
@@ -423,6 +593,13 @@ export class MenuScene extends Phaser.Scene {
     this.itemSlideSkinNext.setAlpha(0.4);
     this.itemSlideSkinPrev.setAlpha(0.4);
     //add the elements to the group
+    this.groupItemSlide = this.add.group();
+    this.groupItemSlide.add(this.itemSlideSkinPrevTmp);
+    this.groupItemSlide.add(this.itemSlideSkinPrev);
+    this.groupItemSlide.add(this.itemSlideSkin);
+    this.groupItemSlide.add(this.itemSlideSkinNext);
+    this.groupItemSlide.add(this.itemSlideSkinPrev);
+
     this.msgBox.add(this.backgroundPopup);
     this.msgBox.add(this.btnOKPopup);
     this.msgBox.add(this.btnClosePopup);
@@ -440,6 +617,9 @@ export class MenuScene extends Phaser.Scene {
       tmp.itemSlideSkinNextTmp.destroy();
       tmp.msgBox.destroy();
       tmp.registry.set("skin", current);
+      tmp.iconChooseSkin.anims.play('' + current, true);
+      tmp.setSize(tmp.iconChooseSkin, customConfig.btnChooseSkin.widthIcon, customConfig.btnChooseSkin.heightIcon);
+   
       console.log(current);
     });
     this.btnClosePopup.on("pointerdown", function () {
@@ -463,6 +643,7 @@ export class MenuScene extends Phaser.Scene {
     this.btnNext.on("pointerdown", function () {
       if (current >= tmp.numSkin) {
         current = 0;
+        console.log(1);
       }
       current++;
       main = current;
