@@ -11,7 +11,7 @@ export let customConfig = {
     url: "",
     version: "1.0",
     zoom: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#24292e",
     camera: {
         bound: [0, -height, width, height * 2]
     },
@@ -34,7 +34,7 @@ export let customConfig = {
         bounce: 0.6,
         velocityX: 2,
         anguVel: 0.15,
-        limitDown: 170
+        limitDown: 170/sizeHeight * height
     },
     bar: {
         startY: (8.3 / 10) * height,
@@ -43,13 +43,13 @@ export let customConfig = {
         friction: 0.005,
         isStatic: true,
         key: "bar",
-        limitDown: 50,
+        limitDown: 50/sizeHeight * height,
         stepMoveUp: 1,
         stepMoveDown: 1,
         upToHide: 100
     },
     collider: {
-        ballWithHoles: (0.07 * width + (1 / 20) * width) / 2,
+        ballWithHoles: (90 / sizeWidth) * width,
         holeWithHole: 0.1 * width
     },
     areaTouch: {
@@ -61,6 +61,16 @@ export let customConfig = {
         limit: 150,
         keyArea: "area",
         keyParent: 'zone'
+    },
+    playScore:{
+        keyBackground:"backScore",
+        x: 100/sizeWidth * width,
+        y: 30/sizeHeight * height,
+        yText:50/sizeHeight * height,
+        width: 200/sizeWidth * width,
+        fontSize: 40/sizeWidth * width,
+        color:"red",
+        fontSizeGO:60/sizeWidth * width
     },
     backLeft: {
         x: (42 / sizeWidth) * width,
@@ -90,8 +100,8 @@ export let customConfig = {
     },
     imgTitle: {
         x: (1 / 2) * width + disX,
-        y: (90 / sizeHeight) * height,
-        width: (445 / sizeWidth) * width,
+        y: (80 / sizeHeight) * height,
+        width: (300 / sizeWidth) * width,
         height: (94 / sizeHeight) * height,
         key: "title"
     },
@@ -107,7 +117,8 @@ export let customConfig = {
         y: (190 / sizeHeight) * height,
         width: (225 / sizeWidth) * width,
         height: (70 / sizeHeight) * height,
-        keyBackground: "buttonOrgane",
+        keyBackground: "buttonOrange",
+        keyInactive: "buttonRank",
         key: "friend",
         xIcon: (457 / sizeWidth) * width + disX,
         yIcon: (177 / sizeHeight) * height,
@@ -131,6 +142,7 @@ export let customConfig = {
         width: (225 / sizeWidth) * width,
         height: (70 / sizeHeight) * height,
         keyBackground: "buttonRank",
+        keyActive: "buttonOrange",
         key: "global",
         xIcon: (890 / sizeWidth) * width + disX,
         yIcon: (177 / sizeHeight) * height,
@@ -189,7 +201,7 @@ export let customConfig = {
             colorText: "black",
             fontWeight: "bold",
             fontFamily: "Arial",
-            rank:1
+            rank: 1
         }
 
     },
@@ -207,8 +219,8 @@ export let customConfig = {
             width: 0.1 * (470 / sizeWidth) * width,
             height: 0.65 * (70 / sizeHeight) * height,
             name: {
-                x: (585 / sizeWidth) * width + disX,
-                y: (350 / sizeHeight) * height,
+                x: (600 / sizeWidth) * width + disX,
+                y: (365 / sizeHeight) * height,
                 text: "Ha",
                 colorText: "black",
                 fontWeight: "bold",
@@ -233,12 +245,13 @@ export let customConfig = {
             x: (775 / sizeWidth) * width + disX,
             y: (370 / sizeHeight) * height,
             score: "0000",
+            scoreGlobal: "1212",
             colorText: "white",
             fontWeight: "bold",
             fontFamily: "Arial",
         },
         buttonItemFight: {
-            keyBackground: "buttonBlue",
+            keyBackground: "buttonBlueMini",
             icon: {
                 key: "solo",
                 x: (850 / sizeWidth) * width + disX,
@@ -267,10 +280,10 @@ export let customConfig = {
         fontFamily: "Arial",
     },
     btnIconPlayWithFriends: {
-        keyBackground: "blue",
+        keyBackground: "buttonBlueMini",
         x: (850 / sizeWidth) * width + disX,
         y: (610 / sizeHeight) * height,
-        width: 0.12 * (490 / sizeWidth) * width,
+        width: 0.2 * (490 / sizeWidth) * width,
         height: 0.7 * (70 / sizeHeight) * height,
         key: "playfriend",
         widthIcon: 0.2 * (490 / sizeWidth) * width,
@@ -301,7 +314,7 @@ export let customConfig = {
         y: (700 / sizeHeight) * height,
         width: (245 / sizeWidth) * width,
         height: (100 / sizeHeight) * height,
-        key: "buttonOrgane",
+        key: "buttonOrange",
         colorText: "white",
         fontWeight: "bold",
         fontFamily: "Arial",
@@ -311,6 +324,9 @@ export let customConfig = {
         yText: (700 / sizeHeight) * height
     },
     sliderSkin: {
+        title:{
+            y: 100/sizeHeight * height
+        },
         background: {
             x: width / 2,
             y: height / 2,
@@ -321,17 +337,19 @@ export let customConfig = {
         btnOK: {
             paddingBottom: 50,
             x: 0.9 * width / 2,
-            key: "ok"
+            keyO: "buttonOrange",
+            keyB: "buttonBlue",
+            width:(250/sizeWidth)*width
         },
         btnClose: {
-            paddingRight: 50,
-            paddingTop: 100,
+            paddingRight: (50 / sizeWidth) * width,
+            paddingTop: (100 / sizeHeight) * height,
             key: "closeBackground",
-            width:(80 / sizeWidth) * width
+            width: (60 / sizeWidth) * width
         },
-        iconClose:{
+        iconClose: {
             key: "close",
-            width:0.8*(80 / sizeWidth) * width
+            width: 0.5 * (80 / sizeWidth) * width
         },
         btnNext: {
             x: 0.9 * width - 50,
@@ -348,10 +366,72 @@ export let customConfig = {
             key: "planets",
             x: 0.9 * width / 2 + 50,
             tweenX: 0.05 * width,
-            duration: 500,
+            duration: 1000,
             ease: "Power1"
         },
-    }
+    },
+    sliderHelp: {
+        title:{
+            y: 100/sizeHeight * height
+        },
+        background: {
+            x: width / 2,
+            y: height / 2,
+            width: 0.9 * width,
+            height: 0.9 * height,
+            key: "background"
+        },
+        btnOK: {
+            paddingBottom: 50,
+            x: 0.9 * width / 2,
+            keyO: "buttonOrange",
+            keyB: "buttonBlue",
+            width:(250/sizeWidth)*width
+        },
+        btnClose: {
+            paddingRight: (50 / sizeWidth) * width,
+            paddingTop: (100 / sizeHeight) * height,
+            key: "closeBackground",
+            width: (60 / sizeWidth) * width
+        },
+        iconClose: {
+            key: "close",
+            width: 0.5 * (80 / sizeWidth) * width
+        },
+        btnNext: {
+            x: 0.9 * width - 50,
+            y: (1 / 2) * height,
+            key: "next"
+        },
+        btnPrev: {
+            x: 0.1 * width + 50,
+            y: (1 / 2) * height,
+            key: "prev"
+        },
+        item: {
+            padding: 0.2 * width,
+            key: ["help1","help2","help3","help4"],
+            x: 0.9 * width / 2 + 50/sizeWidth * width,
+            y:1/2*height,
+            tweenX: 0.05 * width,
+            duration: 1000,
+            ease: "Power1",
+            width:300/sizeWidth * width
+        },
+    },
+    skin: [//type==0> defauft, =1 invite =2 watch
+        { type: 0 },
+        { type: 1, limit: 3600, text: "Watch", key: "buttonOrange", textIfHad: "OK" },
+        { type: 1, limit: 3000, text: "Watch", key: "buttonOrange", textIfHad: "OK" },
+        { type: 1, limit: 1500, text: "Watch", key: "buttonOrange", textIfHad: "OK" },
+        { type: 1, limit: 500, text: "Watch", key: "buttonOrange", textIfHad: "OK" },
+        { type: 1, limit: 700, text: "Watch", key: "buttonOrange", textIfHad: "OK" },
+        { type: 2, limit: 3600, text: "Invite 5F", key: "buttonBlueMini", textIfHad: "OK" },
+        { type: 2, limit: 3600, text: "Invite 10F", key: "buttonBlueMini", textIfHad: "OK" },
+        { type: 2, limit: 3600, text: "Invite 10F", key: "buttonBlueMini", textIfHad: "OK" },
+        { type: 2, limit: 3600, text: "Invite 10F", key: "buttonBlueMini", textIfHad: "OK" },
+        { type: 2, limit: 3600, text: "Invite 15F", key: "buttonBlueMini", textIfHad: "OK" }
+    ]
 }
 export let HolesConfig = {
 
@@ -368,9 +448,9 @@ export let AssetsMenu = [
     { key: "prev", url: "./src/games/ver1/assets/Left.png", type: 0 },
     { key: "next", url: "./src/games/ver1/assets/Right.png", type: 0 },
     { key: "ok", url: "./src/games/ver1/assets/stripe.png", type: 0 },
-    { key: "title", url: "./src/games/ver1/assets/title1.jpg", type: 0 },
+    { key: "title", url: "./src/games/ver1/assets/Banner name.png", type: 0 },
     { key: "cup", url: "./src/games/ver1/assets/Cup-1.png", type: 0 },
-    { key: "buttonOrgane", url: "./src/games/ver1/assets/Button-orange.png", type: 0 },
+    { key: "buttonOrange", url: "./src/games/ver1/assets/Button-orange.png", type: 0 },
     { key: "buttonRank", url: "./src/games/ver1/assets/Button-rank-unactive.png", type: 0 },
     { key: "buttonBlue", url: "./src/games/ver1/assets/Button-blue.png", type: 0 },
     { key: "friend", url: "./src/games/ver1/assets/Friend.png", type: 0 },
@@ -380,10 +460,11 @@ export let AssetsMenu = [
     { key: "speakMute", url: "./src/games/ver1/assets/Speak-mute.png", type: 0 },
     { key: "red", url: "./src/games/ver1/assets/Red.png", type: 0 },
     { key: "blue", url: "./src/games/ver1/assets/Blue.png", type: 0 },
+    { key: "buttonBlueMini", url: "./src/games/ver1/assets/Button-blue-mini.png", type: 0 },
     { key: "myScore", url: "./src/games/ver1/assets/yellow.jpeg", type: 0 },
     { key: "rankBackground", url: "./src/games/ver1/assets/Rank-n-bg.png", type: 0 },
     { key: "rank1Background", url: "./src/games/ver1/assets/Rank-1-bg.png", type: 0 },
-    
+
     { key: "backLeft", url: "./src/games/ver1/assets/backleft.jpg", type: 0 },
     { key: "backGreen", url: "./src/games/ver1/assets/Play wwith friend.png", type: 0 },
     { key: "profile", url: "./src/games/ver1/assets/profile.jpg", type: 0 },
@@ -394,8 +475,16 @@ export let AssetsMenu = [
     { key: "solo", url: "./src/games/ver1/assets/Solo-with.png", type: 0 },
     { key: "playfriend", url: "./src/games/ver1/assets/friend-invite.png", type: 0 },
     { key: "close", url: "./src/games/ver1/assets/Close x.png", type: 0 },
+    { key: "help1", url: "./src/games/ver1/assets/help1.gif", type: 0 },
+    { key: "help2", url: "./src/games/ver1/assets/help2.gif", type: 0 },
+    { key: "help3", url: "./src/games/ver1/assets/help3.gif", type: 0 },
+    { key: "help4", url: "./src/games/ver1/assets/help4.gif", type: 0 },
+    { key: "backScore", url: "./src/games/ver1/assets/backitem.jpeg", type: 0 },
+    { key: "background0", url: "./src/games/ver1/assets/BG-cloud.png", type: 0 },
+    { key: "background1", url: "./src/games/ver1/assets/BG-cloud 2.png", type: 0 },
+    { key: "background2", url: "./src/games/ver1/assets/BG-star 2.png", type: 0 },
     { key: "music", url: "./src/games/ver1/assets/music.mp3", type: 2 },
-    
+
 ];
 export let AssetsMain = [
     { key: "ball1", url: "./src/games/ver1/assets/ball.png", type: 0 },

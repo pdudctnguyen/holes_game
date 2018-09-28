@@ -1,5 +1,6 @@
 import { Hole } from './hole';
 import { customConfig } from '../const/config';
+import { Target } from '../../knifeOPP/objects/target';
 export class Planet {
     private planet;
     constructor(params) {
@@ -76,8 +77,9 @@ export class Planet {
         this.setBounce(0);
         this.planet.setTint(0xff0000);
     }
-    public setDead(scene, tween, planet, x, y) {
-        console.log(x,y);
+    public setDead(scene, tween, planet, x, y, textOver) {
+        console.log(x, y);
+        textOver.setText("GAME OVER\n" + textOver.text);
         tween.add({
             targets: this.planet,
             x: x,
@@ -87,9 +89,20 @@ export class Planet {
             delay: 0,
             onComplete: function () {
                 planet.setScale(0.1);
-                window.setTimeout(function () {
-                    scene.start("GameScene");
-                }, 1000);
+                tween.add({
+                    targets: textOver,
+                    y: customConfig.height / 2,
+                    ease: customConfig.sliderSkin.item.ease,
+                    duration: customConfig.sliderSkin.item.duration + 1500,
+                    delay: 0,
+                    onComplete: function (){
+                        window.setTimeout(function () {
+                            scene.start("GameScene");
+                        }, 1000);
+                    }
+                })
+                
+                
             }
         });
         this.setPause();

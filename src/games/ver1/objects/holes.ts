@@ -137,7 +137,7 @@ export class Holes {
                 num = Phaser.Math.Between(1, 3);
                 this.hideWarn(k, "E", num);
             }
-            rand = Phaser.Math.Between(0, 2);
+            rand = Phaser.Math.Between(2, 5);
             switch (rand) {
                 case 0: {
                     this.hideWarn(k, "L", num);

@@ -40,19 +40,22 @@ export class Bar{
     public getY(){
         return this.bar.y;
     }
-    public update(direction){
+    public update(direction,score){
         switch(direction){
             case "up":{
                 this.bar.y -= customConfig.bar.stepMoveUp;
+                score+=1;
                 break;
             }
             case "down":{
                 this.bar.y += customConfig.bar.stepMoveDown;
+                score-=2;
                 break;
             }
             default:{
                 break;
             }
         }
+        return score;
     }
 }
