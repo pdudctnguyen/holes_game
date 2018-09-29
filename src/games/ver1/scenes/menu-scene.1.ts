@@ -5,7 +5,7 @@ let myScore;
 let myScoreGlobal;
 import { AssetsMenu, customConfig } from '../const/config';
 import { playGame } from '../../knifthit/scenes/main';
-export class MenuScene extends Phaser.Scene {
+export class MenuSceneOver extends Phaser.Scene {
   private menuLeft;
   private btnVolume;
   private music;
@@ -85,9 +85,12 @@ export class MenuScene extends Phaser.Scene {
   private numSkin;
   private currentSkin;
   private mySkins;
+  private background0;
+  private background1;
+  private background2;
   constructor() {
     super({
-      key: "MenuScene"
+      key: "MenuSceneOver"
     });
     this.numSkin = 9;
     this.itemListScore = [];
@@ -124,7 +127,11 @@ export class MenuScene extends Phaser.Scene {
     item.setScale(scalex);
   }
   create(): void {
-    console.log("CCC");
+    console.log("CCsasC");
+    this.background0 = this.add.sprite(customConfig.width / 4, customConfig.height / 4, "background0");
+    this.background1 = this.add.sprite(customConfig.width / 2, customConfig.height / 2, "background1");
+    this.background2 = this.add.sprite(customConfig.width / 3, customConfig.height / 3, "background2");
+    
     for (let i = 0; i <= this.numSkin; i++) {
       this.anims.create({
         key: '' + i,
@@ -377,33 +384,32 @@ export class MenuScene extends Phaser.Scene {
         break;
       }
     }
-    this.myScore = this.add.image(customConfig.myScore.x, customConfig.myScore.y, customConfig.myScore.keyBackground);
-    this.setSize(this.myScore, customConfig.myScore.width, customConfig.myScore.height);
-    this.myScore.setAlpha(0.1)
-    this.iconMyRank = this.add.image(customConfig.myScore.iconMyRank.x, customConfig.myScore.iconMyRank.y, customConfig.myScore.iconMyRank.key + (myScore.rank <= 3 ? myScore.rank + "" : ""));
-    this.setSize(this.iconMyRank, customConfig.myScore.iconMyRank.width, customConfig.myScore.iconMyRank.height);
-    this.textMyRank = this.add.text(customConfig.myScore.iconMyRank.x, customConfig.myScore.iconMyRank.y, myScore.rank + "", { fontSize: customConfig.myScore.iconMyRank.fontSize, fill: customConfig.myScore.iconMyRank.colorText, fontFamily: customConfig.myScore.iconMyRank.fontFamily });
-    this.setCenter(this.textMyRank);
+    // this.myScore = this.add.image(customConfig.myScore.x, customConfig.myScore.y, customConfig.myScore.keyBackground);
+    // this.setSize(this.myScore, customConfig.myScore.width, customConfig.myScore.height);
+    // this.iconMyRank = this.add.image(customConfig.myScore.iconMyRank.x, customConfig.myScore.iconMyRank.y, customConfig.myScore.iconMyRank.key + (myScore.rank <= 3 ? myScore.rank + "" : ""));
+    // this.setSize(this.iconMyRank, customConfig.myScore.iconMyRank.width, customConfig.myScore.iconMyRank.height);
+    // this.textMyRank = this.add.text(customConfig.myScore.iconMyRank.x, customConfig.myScore.iconMyRank.y, myScore.rank + "", { fontSize: customConfig.myScore.iconMyRank.fontSize, fill: customConfig.myScore.iconMyRank.colorText, fontFamily: customConfig.myScore.iconMyRank.fontFamily });
+    // this.setCenter(this.textMyRank);
 
-    this.iconMyRankGlobal = this.add.image(customConfig.myScore.iconMyRank.x, customConfig.myScore.iconMyRank.y, customConfig.myScore.iconMyRank.key + (myScoreGlobal.rank <= 3 ? myScoreGlobal.rank + "" : ""));
-    this.setSize(this.iconMyRankGlobal, customConfig.myScore.iconMyRank.width, customConfig.myScore.iconMyRank.height);
-    this.iconMyRankGlobal.setAlpha(0);
+    // this.iconMyRankGlobal = this.add.image(customConfig.myScore.iconMyRank.x, customConfig.myScore.iconMyRank.y, customConfig.myScore.iconMyRank.key + (myScoreGlobal.rank <= 3 ? myScoreGlobal.rank + "" : ""));
+    // this.setSize(this.iconMyRankGlobal, customConfig.myScore.iconMyRank.width, customConfig.myScore.iconMyRank.height);
+    // this.iconMyRankGlobal.setAlpha(0);
 
-    this.myProfile = this.add.image(customConfig.myScore.profile.x, customConfig.myScore.profile.y, myScore.key);
-    this.setSize(this.myProfile, customConfig.myScore.profile.width, customConfig.myScore.profile.height);
-    this.textMyName = this.add.text(customConfig.myScore.profile.name.x, customConfig.myScore.profile.name.y, myScore.name, { fontSize: customConfig.myScore.profile.name.fontSize, fill: customConfig.myScore.profile.name.colorText, fontFamily: customConfig.myScore.profile.name.fontFamily });
-    this.setCenter(this.textMyName);
-    this.textMyScore = this.add.text(customConfig.myScore.textMyScore.x, customConfig.myScore.textMyScore.y, myScore.score, { fontSize: customConfig.myScore.iconMyRank.fontSize, fill: customConfig.myScore.iconMyRank.colorText, fontFamily: customConfig.myScore.iconMyRank.fontFamily });
-    this.setCenter(this.textMyScore);
+    // this.myProfile = this.add.image(customConfig.myScore.profile.x, customConfig.myScore.profile.y, myScore.key);
+    // this.setSize(this.myProfile, customConfig.myScore.profile.width, customConfig.myScore.profile.height);
+    // this.textMyName = this.add.text(customConfig.myScore.profile.name.x, customConfig.myScore.profile.name.y, myScore.name, { fontSize: customConfig.myScore.profile.name.fontSize, fill: customConfig.myScore.profile.name.colorText, fontFamily: customConfig.myScore.profile.name.fontFamily });
+    // this.setCenter(this.textMyName);
+    // this.textMyScore = this.add.text(customConfig.myScore.textMyScore.x, customConfig.myScore.textMyScore.y, myScore.score, { fontSize: customConfig.myScore.iconMyRank.fontSize, fill: customConfig.myScore.iconMyRank.colorText, fontFamily: customConfig.myScore.iconMyRank.fontFamily });
+    // this.setCenter(this.textMyScore);
 
-    this.btnPlayWithFriends = this.add.image(customConfig.btnPlayWithFriends.x, customConfig.btnPlayWithFriends.y, customConfig.btnPlayWithFriends.keyBackground).setInteractive();
-    this.setSize(this.btnPlayWithFriends, customConfig.btnPlayWithFriends.width, customConfig.btnPlayWithFriends.height);
-    this.btnIconPlayWithFriends = this.add.image(customConfig.btnIconPlayWithFriends.x, customConfig.btnIconPlayWithFriends.y, customConfig.btnIconPlayWithFriends.keyBackground).setInteractive();
-    this.setSize(this.btnIconPlayWithFriends, customConfig.btnIconPlayWithFriends.width, customConfig.btnIconPlayWithFriends.height)
-    this.iconPlayWithFriends = this.add.image(customConfig.btnIconPlayWithFriends.x, customConfig.btnIconPlayWithFriends.y, customConfig.btnIconPlayWithFriends.key).setInteractive();
-    this.setSize(this.iconPlayWithFriends, customConfig.btnIconPlayWithFriends.widthIcon, customConfig.btnIconPlayWithFriends.heightIcon)
-    this.textPlayWithFriends = this.add.text(customConfig.btnPlayWithFriends.xText, customConfig.btnPlayWithFriends.y, customConfig.btnPlayWithFriends.textContent, { fontSize: customConfig.btnPlayWithFriends.fontSize, fill: customConfig.btnPlayWithFriends.colorText, fontFamily: customConfig.btnPlayWithFriends.fontFamily });
-    this.setCenter(this.textPlayWithFriends);
+    // this.btnPlayWithFriends = this.add.image(customConfig.btnPlayWithFriends.x, customConfig.btnPlayWithFriends.y, customConfig.btnPlayWithFriends.keyBackground).setInteractive();
+    // this.setSize(this.btnPlayWithFriends, customConfig.btnPlayWithFriends.width, customConfig.btnPlayWithFriends.height);
+    // this.btnIconPlayWithFriends = this.add.image(customConfig.btnIconPlayWithFriends.x, customConfig.btnIconPlayWithFriends.y, customConfig.btnIconPlayWithFriends.keyBackground).setInteractive();
+    // this.setSize(this.btnIconPlayWithFriends, customConfig.btnIconPlayWithFriends.width, customConfig.btnIconPlayWithFriends.height)
+    // this.iconPlayWithFriends = this.add.image(customConfig.btnIconPlayWithFriends.x, customConfig.btnIconPlayWithFriends.y, customConfig.btnIconPlayWithFriends.key).setInteractive();
+    // this.setSize(this.iconPlayWithFriends, customConfig.btnIconPlayWithFriends.widthIcon, customConfig.btnIconPlayWithFriends.heightIcon)
+    // this.textPlayWithFriends = this.add.text(customConfig.btnPlayWithFriends.xText, customConfig.btnPlayWithFriends.y, customConfig.btnPlayWithFriends.textContent, { fontSize: customConfig.btnPlayWithFriends.fontSize, fill: customConfig.btnPlayWithFriends.colorText, fontFamily: customConfig.btnPlayWithFriends.fontFamily });
+    // this.setCenter(this.textPlayWithFriends);
 
     this.btnChooseSkin = this.add.image(customConfig.btnChooseSkin.x, customConfig.btnChooseSkin.y, customConfig.btnChooseSkin.keyBackground).setInteractive();
     this.setSize(this.btnChooseSkin, customConfig.btnChooseSkin.width, customConfig.btnChooseSkin.height);
@@ -464,8 +470,12 @@ export class MenuScene extends Phaser.Scene {
     this.textIconGlobalScore.setInteractive();
     this.textIconGlobalScore.on("pointerdown", this.activeGlobal, this);
 
-    this.btnIconPlayWithFriends.on("pointerdown", this.playWithFriends, this);
-    this.iconPlayWithFriends.on("pointerdown", this.playWithFriends, this);
+    // this.btnIconPlayWithFriends.on("pointerdown", this.playWithFriends, this);
+    // this.btnIconPlayWithFriends.setAlpha(0);
+    // this.iconPlayWithFriends.on("pointerdown", this.playWithFriends, this);
+    // this.iconPlayWithFriends.setAlpha(0);
+    // this.btnPlayWithFriends.setAlpha(0);
+    // this.textPlayWithFriends.setAlpha(0);
     this.btnChooseSkin.on("pointerdown", this.openPopupChooseSkin, this);
     this.iconHelp.on("pointerdown", this.openPopupHelp, this);
     this.iconVolume.on("pointerdown", this.setMusic, this);
@@ -633,9 +643,11 @@ export class MenuScene extends Phaser.Scene {
     this.registry.set("highscore", [0, 0, 0, 0, 0]);
   }
   private playGame():void{
-    console.log(1);
-    this.scene.stop("MenuScene");
-    this.scene.start("GameScene");
+    try{
+      this.scene.start("GameScene");
+    }catch(Exception){
+      alert("error");
+    }    
   }
   private playWithFriends(): void {
     alert("show popup friends list from IA API after");

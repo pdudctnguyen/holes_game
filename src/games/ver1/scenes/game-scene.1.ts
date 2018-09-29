@@ -1,12 +1,11 @@
 // import { Line } from '../objects/line';
-import { Hole } from '../objects/hole';
 import { Gift } from '../objects/gift';
 import { Planet } from '../objects/planet';
 import { Bar } from '../objects/bar';
 import { AssetsMain, customConfig } from '../const/config';
 import { Holes } from "../objects/holes";
-import { Zone } from '../objects/zone';
-let listAsset = AssetsMain;
+// import { Zone } from '../objects/zone';
+// let AssetsMain = AssetsMain;
 export class GameScene extends Phaser.Scene {
   private holes: Holes;
   private cursors;
@@ -27,7 +26,9 @@ export class GameScene extends Phaser.Scene {
   private listGiftsRoot;
   private background0;
   private background1;
+  private background2;
   private gameOver;
+  private camera;
   constructor() {
     super({
       key: "GameScene"
@@ -41,14 +42,14 @@ export class GameScene extends Phaser.Scene {
   }
 
   preload(): void {
-    for (let i = 0; i < listAsset.length; i++) {
-      switch (listAsset[i].type) {
+    for (let i = 0; i < AssetsMain.length; i++) {
+      switch (AssetsMain[i].type) {
         case 0: {
-          this.load.image(listAsset[i].key, listAsset[i].url);
+          this.load.image(AssetsMain[i].key, AssetsMain[i].url);
           break;
         }
         case 1: {
-          this.load.spritesheet(listAsset[i].key, listAsset[i].url, { frameWidth: 128, frameHeight: 128 });
+          this.load.spritesheet(AssetsMain[i].key, AssetsMain[i].url, { frameWidth: 128, frameHeight: 128 });
           break;
         }
         case 2: {
@@ -77,6 +78,7 @@ export class GameScene extends Phaser.Scene {
     this.matter.world.setBounds(customConfig.matter.bound[0], customConfig.matter.bound[1], customConfig.matter.bound[2], customConfig.matter.bound[3]);
     this.background0 = this.add.sprite(customConfig.width / 4, customConfig.height / 4, "background0");
     this.background1 = this.add.sprite(customConfig.width / 2, customConfig.height / 2, "background1");
+    // this.background2 = this.add.sprite(customConfig.width / 2, customConfig.height / 2, "background2");
     this.input.addPointer();
     this.input.addPointer();
     this.planet = new Planet({
@@ -145,7 +147,7 @@ export class GameScene extends Phaser.Scene {
     this.holes = new Holes({
       scene: this
     });
-    this.holes.createChildren();
+    this.holes.createChildren(customConfig.hole.startY, customConfig.camera.bound[1]);
     this.listHoles = this.holes.getHoles();
     this.listHolesRoot = this.holes.getHolesRoot();
     this.listGifts = this.holes.getGifts();
@@ -162,18 +164,45 @@ export class GameScene extends Phaser.Scene {
     this.zone2.setScrollFactor(0);
 
     this.backGroundScore = this.add.image(customConfig.playScore.x, customConfig.playScore.y, customConfig.playScore.keyBackground);
-    this.setSize(this.backGroundScore, customConfig.playScore.width);
+    this.setSize(this.backGroundScore, customConfig.playScore.width + 50);
     this.scoreText = this.add.text(customConfig.playScore.x, customConfig.playScore.yText, "SCORE: " + this.score, { fontSize: customConfig.playScore.fontSize + "px", fill: customConfig.playScore.color, fontWeight: '700' });
     this.setCenter(this.scoreText);
-    this.gameOver = this.add.text(customConfig.width/2, customConfig.height + 100, "GAME OVER\n" + this.scoreText.text, { fontSize: customConfig.playScore.fontSizeGO + "px", fill: customConfig.playScore.color, fontWeight: '700' });
+    this.gameOver = this.add.text(customConfig.width / 2, customConfig.height + 100, "GAME OVER\nSCORE: " + this.score, { fontSize: customConfig.playScore.fontSizeGO + "px", fill: customConfig.playScore.color, fontWeight: '700' });
     this.setCenter(this.gameOver);
     this.scoreText.setScrollFactor(0);
-
+    this.backGroundScore.setScrollFactor(0);
   }
   openDie(): void {
 
   }
-  update(time, delta): void {
+  setDead(itemx, itemy): void {
+    if (this.registry.get("friendsScore")) {
+      let tmp = this.registry.get("friendsScore");
+      for (let t = 0; t < tmp.length; t++) {
+        if (tmp[t].id == 1) {//id user
+          if (this.score > tmp[t].score) {
+            tmp[t].score = this.score;
+          }
+          tmp.sort((n1, n2) => n1.score < n2.score);
+        }
+      }
+      this.registry.set("friendsScore", tmp);
+    }
+    if (this.registry.get("friendsScoreGlobal")) {
+      let tmpGlobal = this.registry.get("friendsScoreGlobal");
+      for (let t = 0; t < tmpGlobal.length; t++) {
+        if (tmpGlobal[t].id == 1) {//id user
+          if (this.score > tmpGlobal[t].score) {
+            tmpGlobal[t].score = this.score;
+          }
+          tmpGlobal.sort((n1, n2) => n1.score < n2.score);
+        }
+      }
+      this.registry.set("friendsScoreGlobal", tmpGlobal);
+      this.planet.setDead(this.scene, this.tweens, this.planet, itemx, itemy, this.gameOver, this.score);
+    }
+  }
+  update(): void {
     let [angle, direction] = getAngle(this.zone1.x, this.zone1.y, this.zone2.x, this.zone2.y, this.area1.y, this.area2.y, this.cursors);
     let allowHide = direction == "up" ? true : false;
     let allow = (direction == "up" || direction == "down") ? true : false;
@@ -182,13 +211,38 @@ export class GameScene extends Phaser.Scene {
       if (angle > 0) {
         this.background1.x -= 0.5;
         this.background0.x -= 0.3;
-      }else{
+        // this.background2.x -= 0.4;
+      } else {
         this.background1.x += 0.5;
         this.background0.x += 0.3;
+        // this.background2.x += 0.4;
       }
       allow = true;
     }
-    this.score = this.bar.update(direction,this.score);
+    this.score = this.bar.update(direction, this.score);
+    if (this.bar.getY() <= customConfig.camera.bound[1] + 100) {
+      let arrHoles;
+      for (let t = 0; t < this.listHolesRoot.length; t++) {
+        arrHoles = this.listHolesRoot[t];
+        for (let i = 0; i < arrHoles.length; i++) {
+          arrHoles[i].setDestroy();
+        }
+        this.listHolesRoot[t].splice(0, arrHoles.length);
+      }
+      let gift: Gift;
+      for (let t = 0; t < this.listGiftsRoot.length; t++) {
+        gift = this.listGiftsRoot[t];
+        gift.setDestroy();
+        this.listGiftsRoot.splice(t, 1);
+      }
+      this.holes.createChildren(customConfig.hole.startY, customConfig.camera.bound[1]);
+      this.planet.setY(this.planet.getY() + 2 * customConfig.height - 100);
+      this.bar.setY(this.bar.getY() + 2 * customConfig.height - 100);
+      this.background0.x = customConfig.width / 2;
+      this.background0.y = this.planet.getY() - customConfig.height / 2;
+      this.background1.x = customConfig.width / 4;
+      this.background1.y = this.bar.getY() - customConfig.height / 4;
+    }
     this.scoreText.setText("yours: " + this.score);
     if (allow) {
       let arrHoles;
@@ -205,8 +259,7 @@ export class GameScene extends Phaser.Scene {
               this.zone1.destroy();
               this.zone2.destroy();
               this.scoreText.setText("YOU LOST");
-              this.planet.setDead(this.scene, this.tweens, this.planet, item.x, item.y,this.gameOver);
-
+              this.setDead(item.x, item.y);
               break;
             }
           }
@@ -246,18 +299,10 @@ export class GameScene extends Phaser.Scene {
           break;
         }
       }
-      if (this.planet.getY() > this.bar.getY() + customConfig.planet.limitDown || this.bar.getY() > customConfig.height - customConfig.bar.limitDown) {
-        this.zone1.y = this.area1.y;
-        this.zone2.y = this.area2.y;
-        this.planet.setPause();
-        this.matter.pause();
-        this.zone1.destroy();
-        this.zone2.destroy();
-        this.scoreText.setText("YOU LOST");
-        this.scene.start("GameScene");
-      }
     }
-
+    if (this.planet.getY() > this.bar.getY() + customConfig.planet.limitDown) {
+      this.setDead(-1, -1);
+    }
   }
 }
 function getAngle(zone1x, zone1y, zone2x, zone2y, area1y, area2y, cursor) {

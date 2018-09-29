@@ -8,8 +8,9 @@ import { BootScene } from "./scenes/boot-scene";
 import { GameScene } from "./scenes/game-scene.1";
 import { HUDScene } from "./scenes/hud-scene";
 import { customConfig } from './const/config';
-let cusConfig = customConfig;
 import { MenuScene } from "./scenes/menu-scene";
+import { MenuSceneOver } from "./scenes/menu-scene.1";
+let cusConfig = customConfig;
 const config: GameConfig = {
     title: cusConfig.title,
     url: cusConfig.url,
@@ -19,7 +20,7 @@ const config: GameConfig = {
     zoom: cusConfig.zoom,
     type: Phaser.AUTO,
     parent: "game",
-    scene: [BootScene, MenuScene, GameScene, HUDScene],
+    scene: [BootScene, MenuScene, GameScene, HUDScene,MenuSceneOver],
     input: {
         keyboard: true,
         mouse: true,
@@ -30,7 +31,7 @@ const config: GameConfig = {
         default: "matter",
         matter: {
             gravity: { y: 1 },
-            debug: true
+            debug: false
         }
     },
     backgroundColor: cusConfig.backgroundColor,
@@ -51,7 +52,11 @@ export class Game extends Phaser.Game {
 //        game = new Game(config);
 //     })
 // })
-
+function getGame(){
+    console.log(game);
+    return game;
+}
+let gameClone;
 window.onload = () => {
     config.width = window.innerWidth;
     config.height = window.innerHeight;

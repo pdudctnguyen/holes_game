@@ -13,16 +13,19 @@ export let customConfig = {
     zoom: 1,
     backgroundColor: "#24292e",
     camera: {
-        bound: [0, -height, width, height * 2]
+        bound: [0, - height, width, height * 2]
     },
     matter: {
         bound: [0, -height, width, height * 2]
+    },
+    textGameover: {
+        yTween: 1 / 2 * height - 100 / sizeHeight * height
     },
     hole: {
         startY: (6.5 / 10) * height,
         radius: (105 / sizeWidth) * width,
         numFrames: 4,
-        distanceY: 0.14 * height,
+        distanceY: 0.15 * height,
         randomStepY: 0.05 * height,
         randomStepX: 0.02 * width
     },
@@ -34,7 +37,7 @@ export let customConfig = {
         bounce: 0.6,
         velocityX: 2,
         anguVel: 0.15,
-        limitDown: 170/sizeHeight * height
+        limitDown: 170 / sizeHeight * height
     },
     bar: {
         startY: (8.3 / 10) * height,
@@ -43,14 +46,15 @@ export let customConfig = {
         friction: 0.005,
         isStatic: true,
         key: "bar",
-        limitDown: 50/sizeHeight * height,
+        limitDown: 50 / sizeHeight * height,
         stepMoveUp: 1,
         stepMoveDown: 1,
         upToHide: 100
     },
     collider: {
-        ballWithHoles: (90 / sizeWidth) * width,
-        holeWithHole: 0.1 * width
+        ballWithHoles: (40 / sizeWidth) * width,
+        holeWithHole: (120 / sizeWidth) * width,
+
     },
     areaTouch: {
         width: (1 / 2) * width,
@@ -62,15 +66,15 @@ export let customConfig = {
         keyArea: "area",
         keyParent: 'zone'
     },
-    playScore:{
-        keyBackground:"backScore",
-        x: 100/sizeWidth * width,
-        y: 30/sizeHeight * height,
-        yText:50/sizeHeight * height,
-        width: 200/sizeWidth * width,
-        fontSize: 40/sizeWidth * width,
-        color:"red",
-        fontSizeGO:60/sizeWidth * width
+    playScore: {
+        keyBackground: "backScore",
+        x: 100 / sizeWidth * width,
+        y: 30 / sizeHeight * height,
+        yText: 50 / sizeHeight * height,
+        width: 200 / sizeWidth * width,
+        fontSize: 40 / sizeWidth * width,
+        color: "red",
+        fontSizeGO: 60 / sizeWidth * width
     },
     backLeft: {
         x: (42 / sizeWidth) * width,
@@ -324,8 +328,8 @@ export let customConfig = {
         yText: (700 / sizeHeight) * height
     },
     sliderSkin: {
-        title:{
-            y: 100/sizeHeight * height
+        title: {
+            y: 100 / sizeHeight * height
         },
         background: {
             x: width / 2,
@@ -339,7 +343,7 @@ export let customConfig = {
             x: 0.9 * width / 2,
             keyO: "buttonOrange",
             keyB: "buttonBlue",
-            width:(250/sizeWidth)*width
+            width: (250 / sizeWidth) * width
         },
         btnClose: {
             paddingRight: (50 / sizeWidth) * width,
@@ -371,8 +375,8 @@ export let customConfig = {
         },
     },
     sliderHelp: {
-        title:{
-            y: 100/sizeHeight * height
+        title: {
+            y: 100 / sizeHeight * height
         },
         background: {
             x: width / 2,
@@ -386,7 +390,7 @@ export let customConfig = {
             x: 0.9 * width / 2,
             keyO: "buttonOrange",
             keyB: "buttonBlue",
-            width:(250/sizeWidth)*width
+            width: (250 / sizeWidth) * width
         },
         btnClose: {
             paddingRight: (50 / sizeWidth) * width,
@@ -410,13 +414,13 @@ export let customConfig = {
         },
         item: {
             padding: 0.2 * width,
-            key: ["help1","help2","help3","help4"],
-            x: 0.9 * width / 2 + 50/sizeWidth * width,
-            y:1/2*height,
+            key: ["help1", "help2", "help3", "help4"],
+            x: 0.9 * width / 2 + 50 / sizeWidth * width,
+            y: 1 / 2 * height,
             tweenX: 0.05 * width,
             duration: 1000,
             ease: "Power1",
-            width:300/sizeWidth * width
+            width: 300 / sizeWidth * width
         },
     },
     skin: [//type==0> defauft, =1 invite =2 watch
@@ -498,4 +502,7 @@ export let AssetsMain = [
     { key: 'gift10', url: './src/games/ver1/assets/gift10.png', type: 0 },
     { key: 'holes', url: './src/games/ver1/assets/holes-sheet.png', type: 1 },
     { key: "music", url: "./src/games/ver1/assets/music.mp3", type: 2 },
+    { key: "background0", url: "./src/games/ver1/assets/BG-cloud.png", type: 0 },
+    { key: "background1", url: "./src/games/ver1/assets/BG-cloud 2.png", type: 0 },
+    { key: "background2", url: "./src/games/ver1/assets/BG-star 2.png", type: 0 },
 ];

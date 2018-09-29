@@ -77,34 +77,50 @@ export class Planet {
         this.setBounce(0);
         this.planet.setTint(0xff0000);
     }
-    public setDead(scene, tween, planet, x, y, textOver) {
-        console.log(x, y);
-        textOver.setText("GAME OVER\n" + textOver.text);
-        tween.add({
-            targets: this.planet,
-            x: x,
-            y: y,
-            ease: customConfig.sliderSkin.item.ease,
-            duration: customConfig.sliderSkin.item.duration,
-            delay: 0,
-            onComplete: function () {
-                planet.setScale(0.1);
-                tween.add({
-                    targets: textOver,
-                    y: customConfig.height / 2,
-                    ease: customConfig.sliderSkin.item.ease,
-                    duration: customConfig.sliderSkin.item.duration + 1500,
-                    delay: 0,
-                    onComplete: function (){
-                        window.setTimeout(function () {
-                            scene.start("GameScene");
-                        }, 1000);
-                    }
-                })
-                
-                
-            }
-        });
+    public setDead(scene, tween, planet, x, y, textOver, score) {
+        textOver.setText("GAME OVER\nSCORE: " + score);
+        let tmp = this;
+        if (x == -1 && y == -1) {
+            tween.add({
+                targets: textOver,
+                y: tmp.planet.y,
+                ease: customConfig.sliderSkin.item.ease,
+                duration: customConfig.sliderSkin.item.duration + 1500,
+                delay: 0,
+                onComplete: function () {
+                    window.setTimeout(function () {
+                        // scene.stop('GameScene');
+                        scene.restart();
+                        // scene.start("MenuScene");
+
+                    }, 100);
+                }
+            })
+        } else {
+            tween.add({
+                targets: this.planet,
+                x: x,
+                y: y,
+                ease: customConfig.sliderSkin.item.ease,
+                duration: customConfig.sliderSkin.item.duration,
+                delay: 0,
+                onComplete: function () {
+                    planet.setScale(0.1);
+                    tween.add({
+                        targets: textOver,
+                        y: tmp.planet.y,
+                        ease: customConfig.sliderSkin.item.ease,
+                        duration: customConfig.sliderSkin.item.duration + 1500,
+                        delay: 0,
+                        onComplete: function () {
+                            window.setTimeout(function () {
+                                scene.restart();
+                            }, 100);
+                        }
+                    })
+                }
+            });
+        }
         this.setPause();
     }
 }

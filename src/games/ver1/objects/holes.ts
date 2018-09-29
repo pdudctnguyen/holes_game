@@ -12,7 +12,7 @@ export class Holes {
         this.currentScene.anims.create({
             key: 'hole1',
             frames: this.currentScene.anims.generateFrameNumbers('holes', { start: 0, end: 3 }),
-            frameRate: 10,
+            frameRate: 8,
             repeat: -1,
             yoyo: true
         });
@@ -25,16 +25,16 @@ export class Holes {
         let arr;
         let start = 0;
         let end = this.listHoles.length;
-        if (current - 1 >= 0) {
-            start = current - 1;
+        if (current - 4 >= 0) {
+            start = current - 4;
         }
-        if (current + 1 < this.listHoles.length) {
-            end = current + 1;
+        if (current + 4 < this.listHoles.length) {
+            end = current + 4;
         }
         for (let t = start; t < end; t++) {
             arr = this.listHoles[t];
             for (let k = 0; k < arr.length; k++) {
-                if (Phaser.Math.Distance.Between(x, y, arr[k].getX(), arr[k].getY()) < customConfig.collider.holeWithHole) {
+                if (Phaser.Math.Distance.Between(x, y, arr[k].getX(), arr[k].getY()) <= customConfig.collider.holeWithHole) {
                     return false;
                 }
             }
@@ -71,14 +71,14 @@ export class Holes {
         // console.log("xoa tu " + vtDel + " " + num + " phan tu ");
         this.listHoles[index].splice(vtDel, num);
     }
-    public createChildren() {
+    public createChildren(startY,height) {
         let warn;
         let x, y, yc, diembd, t, k1;
         let current = -1;
         this.listHoles = [];
-        y = customConfig.hole.startY;
+        y = startY;
         t = customConfig.width / customConfig.hole.radius + 1;
-        while (y > -customConfig.height) {
+        while (y > height) {
             current++;
             y -= customConfig.hole.distanceY;
             diembd = Phaser.Math.Between(0, customConfig.hole.randomStepY);
@@ -132,9 +132,10 @@ export class Holes {
         let rand;
         for (let k = 0; k < this.listHoles.length; k++) {
             if (k > 4) {
-                num = Phaser.Math.Between(1, 2);
+                // num = Phaser.Math.Between(1, 2);
+                num = Phaser.Math.Between(3, 4);
             } else {
-                num = Phaser.Math.Between(1, 3);
+                num = Phaser.Math.Between(3, 5);
                 this.hideWarn(k, "E", num);
             }
             rand = Phaser.Math.Between(2, 5);
@@ -158,8 +159,13 @@ export class Holes {
     public update() {
 
     }
+    public destroyAll(){
+        for(let i = 0; i< this.holes; i++){
+            this.holes[i].setDestroy();
+        }
+    }
     public destroyLine(index) {
-
+        
     }
     public setDestroy() {
         this.hole.isactive = false;
