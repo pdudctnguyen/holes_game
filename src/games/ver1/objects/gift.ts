@@ -37,5 +37,8 @@ export class Gift{
     public setDestroy(){
         this.gift.destroy();
     }
+    public getType(){
+        return this.gift.typeGift;
+    }
     
   }

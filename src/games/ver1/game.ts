@@ -9,7 +9,6 @@ import { GameScene } from "./scenes/game-scene.1";
 import { HUDScene } from "./scenes/hud-scene";
 import { customConfig } from './const/config';
 import { MenuScene } from "./scenes/menu-scene";
-import { MenuSceneOver } from "./scenes/menu-scene.1";
 let cusConfig = customConfig;
 const config: GameConfig = {
     title: cusConfig.title,
@@ -20,7 +19,7 @@ const config: GameConfig = {
     zoom: cusConfig.zoom,
     type: Phaser.AUTO,
     parent: "game",
-    scene: [BootScene, MenuScene, GameScene, HUDScene,MenuSceneOver],
+    scene: [BootScene, MenuScene, GameScene, HUDScene],
     input: {
         keyboard: true,
         mouse: true,

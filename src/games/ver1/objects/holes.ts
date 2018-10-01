@@ -71,7 +71,48 @@ export class Holes {
         // console.log("xoa tu " + vtDel + " " + num + " phan tu ");
         this.listHoles[index].splice(vtDel, num);
     }
-    public createChildren(startY,height) {
+    public applyChild(list1, list2) {
+        this.listHoles = [];
+        let warn;
+        let gift;
+        let arrWarn;
+        let arrGift;
+        for (let i = 0; i < list1.length; i++) {
+            arrWarn = list1[i];
+            this.holes = [];
+            for(let j = 0; j < arrWarn.length; j++){
+                warn = new Hole({
+                    scene: this.currentScene,
+                    x: arrWarn[j].x,
+                    y: arrWarn[j].y,
+                    w: customConfig.hole.radius,
+                    h: customConfig.hole.radius,
+                    key: "warn",
+                    radius: customConfig.hole.radius,
+                    isStatic: true
+                });
+                this.holes.push(warn);
+            }
+            if (this.holes.length > 0) {
+                this.listHoles.push(this.holes);
+            }
+        }
+        for (let i = 0; i < list2.length; i++) {
+                gift = new Gift({
+                    scene: this.currentScene,
+                    x: list2[i].x,
+                    y: list2[i].y,
+                    type: list2[i].type,
+                    key: list2[i].type == 0 ? "gift5" : "gift10",
+                    radius: 20,
+                    isStatic: true
+                }); 
+                this.gifts.push(gift);
+        }
+        // this.listHoles = list1;
+        // this.gifts = list2;
+    }
+    public createChildren(startY, height) {
         let warn;
         let x, y, yc, diembd, t, k1;
         let current = -1;
@@ -159,13 +200,13 @@ export class Holes {
     public update() {
 
     }
-    public destroyAll(){
-        for(let i = 0; i< this.holes; i++){
+    public destroyAll() {
+        for (let i = 0; i < this.holes; i++) {
             this.holes[i].setDestroy();
         }
     }
     public destroyLine(index) {
-        
+
     }
     public setDestroy() {
         this.hole.isactive = false;
@@ -192,7 +233,7 @@ export class Holes {
     public getGifts() {
         let listarr = [];
         for (let i = 0; i < this.gifts.length; i++) {
-            listarr.push({ x: this.gifts[i].getX(), y: this.gifts[i].getY() });
+            listarr.push({ x: this.gifts[i].getX(), y: this.gifts[i].getY(),type:this.gifts[i].getType()});
         }
         return listarr;
     }

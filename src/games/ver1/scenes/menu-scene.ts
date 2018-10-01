@@ -634,8 +634,11 @@ export class MenuScene extends Phaser.Scene {
   }
   private playGame():void{
     console.log(1);
-    this.scene.stop("MenuScene");
+    this.registry.set("music",this.playMusic);
+    this.registry.set("timesPlay",true);
+    // this.scene.stop("MenuScene");
     this.scene.start("GameScene");
+    
   }
   private playWithFriends(): void {
     alert("show popup friends list from IA API after");

@@ -2,10 +2,10 @@
 import { Gift } from '../objects/gift';
 import { Planet } from '../objects/planet';
 import { Bar } from '../objects/bar';
-import { AssetsMain, customConfig } from '../const/config';
+import { AssetsMenu, customConfig } from '../const/config';
 import { Holes } from "../objects/holes";
 // import { Zone } from '../objects/zone';
-// let AssetsMain = AssetsMain;
+// let AssetsMenu = AssetsMenu;
 export class GameScene extends Phaser.Scene {
   private holes: Holes;
   private cursors;
@@ -29,6 +29,25 @@ export class GameScene extends Phaser.Scene {
   private background2;
   private gameOver;
   private camera;
+  private iconVolume;
+  private iconVolumeMute;
+  private btnVolume;
+  private music;
+  private playMusic;
+  private btnReset;
+  private iconReset;
+  private backgroundPopupDie;
+  private btnReplay;
+  private textWhenDie;
+  private textTime;
+  private btnContinue;
+  private groupDie;
+  private cloneHoles;
+  private cloneGifts;
+  private cloneHolesXY;
+  private cloneGiftXY;
+  private allowTimeDown;
+  private textScoreWhenDie;
   constructor() {
     super({
       key: "GameScene"
@@ -38,22 +57,26 @@ export class GameScene extends Phaser.Scene {
   init(): void {
     this.alpha = 0;
     this.score = 0;
+    this.allowTimeDown = false;
+    if (this.registry.get("score")) {
+      this.score = this.registry.get("score");
+    }
     this.angle1 = 0;
   }
 
   preload(): void {
-    for (let i = 0; i < AssetsMain.length; i++) {
-      switch (AssetsMain[i].type) {
+    for (let i = 0; i < AssetsMenu.length; i++) {
+      switch (AssetsMenu[i].type) {
         case 0: {
-          this.load.image(AssetsMain[i].key, AssetsMain[i].url);
+          this.load.image(AssetsMenu[i].key, AssetsMenu[i].url);
           break;
         }
         case 1: {
-          this.load.spritesheet(AssetsMain[i].key, AssetsMain[i].url, { frameWidth: 128, frameHeight: 128 });
+          this.load.spritesheet(AssetsMenu[i].key, AssetsMenu[i].url, { frameWidth: 128, frameHeight: 128 });
           break;
         }
         case 2: {
-          this.load.audio(AssetsMain[i].key, AssetsMain[i].url, { frameWidth: 128, frameHeight: 128 });
+          this.load.audio(AssetsMenu[i].key, AssetsMenu[i].url, { frameWidth: 128, frameHeight: 128 });
           break;
         }
       }
@@ -67,7 +90,111 @@ export class GameScene extends Phaser.Scene {
     let scalex = width / item.width;
     item.setScale(scalex);
   }
+  setMusic(): void {
+    this.playMusic = this.playMusic ? false : true;
+    if (this.playMusic) {
+      this.music.play();
+      this.iconVolumeMute.setAlpha(0);
+      this.iconVolume.setAlpha(1);
+    } else {
+      this.music.stop();
+      this.iconVolume.setAlpha(0);
+      this.iconVolumeMute.setAlpha(1);
+    }
+  }
+  resetGame(): void {
+    this.scene.restart();
+  }
+  openPopupWhenDie(): void {
+    let isContinue = true;
+    if (this.registry.get("timesPlay") == false) {
+      isContinue = false;
+    }
+    this.backgroundPopupDie = this.add.sprite(customConfig.backgroundPopupDie.x, customConfig.backgroundPopupDie.y, customConfig.backgroundPopupDie.key);
+    this.setSize(this.backgroundPopupDie, customConfig.backgroundPopupDie.width);
+    this.textScoreWhenDie = this.add.text(customConfig.backgroundPopupDie.x, customConfig.backgroundPopupDie.y, "YOURS: " + this.score, { fontSize: customConfig.backgroundPopupDie.fontSizeScore + "px", fill: customConfig.backgroundPopupDie.colorTime, fontWeight: '700' });
+    this.setCenter(this.textScoreWhenDie);
+    let y = this.backgroundPopupDie.y + this.backgroundPopupDie.height / 2 * this.backgroundPopupDie.scaleY;
+    let width = 0.3 * this.backgroundPopupDie.width * this.backgroundPopupDie.scaleX;
+    this.btnReplay = this.add.sprite(this.backgroundPopupDie.x, y, "buttonBlue").setInteractive();
+    this.btnContinue = this.add.sprite(this.backgroundPopupDie.x, y, "buttonOrange").setInteractive();
+    this.setSize(this.btnReplay, width);
+    this.setSize(this.btnContinue, width);
+    this.textWhenDie = this.add.text(this.backgroundPopupDie.x, y, "REPLAY", { fontSize: customConfig.backgroundPopupDie.fontSize + "px", fill: customConfig.backgroundPopupDie.color, fontWeight: '700' });
+    this.setCenter(this.textWhenDie);
+    if (isContinue) {
+      this.btnContinue.setAlpha(1);
+      this.btnReplay.setAlpha(0);
+      this.textWhenDie.setText("CONTINUE")
+      this.textTime = this.add.text(this.backgroundPopupDie.x,this.textWhenDie.y + this.textWhenDie.height/2 + 10, "5", { fontSize: customConfig.backgroundPopupDie.fontSizeTime + "px", fill: customConfig.backgroundPopupDie.colorTime, fontWeight: '700' });
+      this.allowTimeDown = true;
+      this.textWhenDie.x = this.backgroundPopupDie.x - this.textWhenDie.width / 2;
+      this.countDown(5);
+    
+      // this.setCenter(this.textWhenDie);
+    } else {
+      this.btnContinue.setAlpha(0);
+      this.btnReplay.setAlpha(1);
+      this.textWhenDie.setText("REPLAY");
+      this.textWhenDie.x = this.backgroundPopupDie.x - this.textWhenDie.width / 2;
+    }
+    this.btnReplay.on("pointerdown", this.replayGame, this);
+    this.btnContinue.on("pointerdown", this.continueGame, this);
+    this.backgroundPopupDie.setScrollFactor(0);
+    this.btnContinue.setScrollFactor(0);
+    this.btnReplay.setScrollFactor(0);
+    this.textWhenDie.setScrollFactor(0);
+    this.textTime.setScrollFactor(0);
+   
+    // tmp.btnReplay.depth=6;
+  }
+  continueGame(): void {
+    if (window.confirm('watch ads')) {
+      this.registry.set("score", this.score);
+      this.registry.set("timesPlay", false);
+      this.registry.set("listHoles", this.cloneHolesXY);
+      this.registry.set("listGifts", this.cloneGiftXY);
+      this.scene.restart();
+    }
+  }
+  replayGame(): void {
+    this.score = 0;
+    this.registry.set("score", this.score);
+    this.registry.set("timesPlay", false);
+    this.scene.restart();
+    this.registry.set("listHoles", []);
+
+  }
   create(): void {
+    this.btnVolume = this.add.image(customConfig.btnVolume.x, customConfig.btnVolume.y, customConfig.btnVolume.keyBackground).setInteractive();
+    this.setSize(this.btnVolume, customConfig.btnVolume.width);
+    this.iconVolume = this.add.image(customConfig.btnVolume.x, customConfig.btnVolume.y, customConfig.btnVolume.key).setInteractive();
+    this.setSize(this.iconVolume, 0.8 * customConfig.btnVolume.width);
+    this.iconVolumeMute = this.add.image(customConfig.btnVolume.x, customConfig.btnVolume.y, customConfig.btnVolumeMute.key).setInteractive();
+    this.setSize(this.iconVolumeMute, 0.8 * customConfig.btnVolume.width);
+    this.iconVolumeMute.setAlpha(0);
+    this.btnReset = this.add.image(customConfig.btnHelp.x, customConfig.btnHelp.y, customConfig.btnHelp.keyBackground).setInteractive();
+    this.setSize(this.btnReset, customConfig.btnHelp.width);
+    this.iconReset = this.add.image(customConfig.btnHelp.x, customConfig.btnHelp.y, customConfig.btnHelp.key).setInteractive();
+    this.setSize(this.iconReset, 0.8 * customConfig.btnHelp.width);
+    this.btnReset.depth = 3;
+    this.btnReset.setScrollFactor(0);
+    this.btnVolume.depth = 3;
+    this.btnVolume.setScrollFactor(0);
+    this.iconReset.depth = 3;
+    this.iconReset.setScrollFactor(0);
+    this.iconVolume.depth = 3;
+    this.iconVolume.setScrollFactor(0);
+    this.iconVolumeMute.depth = 3;
+    this.iconVolumeMute.setScrollFactor(0);
+    this.music = this.sound.add('music');
+    this.music.play();
+    this.playMusic = !this.registry.get("music");
+    this.setMusic();
+
+    this.iconReset.on("pointerdown", this.resetGame, this);
+    this.iconVolume.on("pointerdown", this.setMusic, this);
+    this.iconVolumeMute.on("pointerdown", this.setMusic, this);
     let key = "";
     if (this.registry.get("skin") == "1") {
       key = "ball1";
@@ -147,7 +274,19 @@ export class GameScene extends Phaser.Scene {
     this.holes = new Holes({
       scene: this
     });
-    this.holes.createChildren(customConfig.hole.startY, customConfig.camera.bound[1]);
+    if (this.registry.get("score") > 0 && this.registry.get("listHoles").length > 0) {
+      this.listHoles = this.registry.get("listHoles");
+      this.listGifts = this.registry.get("listGifts")
+      this.holes.applyChild(this.listHoles, this.listGifts);
+      //console.log(this.listHolesRoot);
+    } else {
+      this.holes.createChildren(customConfig.hole.startY, customConfig.camera.bound[1]);
+      this.cloneHoles = this.holes.getHolesRoot();
+      this.cloneHolesXY = this.holes.getHoles();
+      this.cloneGifts = this.holes.getGiftsRoot();
+      this.cloneGiftXY = this.holes.getGifts();
+
+    }
     this.listHoles = this.holes.getHoles();
     this.listHolesRoot = this.holes.getHolesRoot();
     this.listGifts = this.holes.getGifts();
@@ -199,10 +338,52 @@ export class GameScene extends Phaser.Scene {
         }
       }
       this.registry.set("friendsScoreGlobal", tmpGlobal);
-      this.planet.setDead(this.scene, this.tweens, this.planet, itemx, itemy, this.gameOver, this.score);
     }
+    this.planet.setDead(this.scene, this.tweens, this.planet, itemx, itemy, this.gameOver, this.score, this);
+  }
+  countDown(i): void {
+    if (this.allowTimeDown) {
+      this.textTime.setText("" + i);
+      this.textTime.x = this.backgroundPopupDie.x - this.textTime.width/2;
+      let tmp = this;
+      if (i > 0) {
+        //console.log(11);
+        window.setTimeout(function () {
+          tmp.countDown(--i);
+        }, 1000);
+      } else {
+        if (window.confirm('watch ads')) {
+          tmp.continueGame();
+          tmp.allowTimeDown = false;
+        }
+      }
+    }
+
+
   }
   update(): void {
+    let angletmp = this.bar.getAngle();
+    if (this.cursors.left.isDown) {
+      this.bar.setAngle(angletmp - 0.2);
+      if (angletmp > 0) {
+        this.planet.setVelocityX(2);
+      } else if (angletmp < 0) {
+        this.planet.setVelocityX(-2);
+      } else {
+        this.planet.setVelocityX(0);
+      }
+      return;
+    } else if (this.cursors.right.isDown) {
+      this.bar.setAngle(this.bar.getAngle() + 0.2);
+      if (angletmp > 0) {
+        this.planet.setVelocityX(5);
+      } else if (angletmp < 0) {
+        this.planet.setVelocityX(-5);
+      } else {
+        this.planet.setVelocityX(0);
+      }
+      return;
+    }
     let [angle, direction] = getAngle(this.zone1.x, this.zone1.y, this.zone2.x, this.zone2.y, this.area1.y, this.area2.y, this.cursors);
     let allowHide = direction == "up" ? true : false;
     let allow = (direction == "up" || direction == "down") ? true : false;
@@ -256,8 +437,8 @@ export class GameScene extends Phaser.Scene {
               this.zone1.y = this.area1.y;
               this.zone2.y = this.area2.y;
               this.matter.pause();
-              this.zone1.destroy();
-              this.zone2.destroy();
+              // this.zone1.destroy();
+              // this.zone2.destroy();
               this.scoreText.setText("YOU LOST");
               this.setDead(item.x, item.y);
               break;

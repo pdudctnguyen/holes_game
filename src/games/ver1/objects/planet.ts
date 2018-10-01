@@ -77,7 +77,8 @@ export class Planet {
         this.setBounce(0);
         this.planet.setTint(0xff0000);
     }
-    public setDead(scene, tween, planet, x, y, textOver, score) {
+    
+    public setDead(scene, tween, planet, x, y, textOver, score, _this) {
         textOver.setText("GAME OVER\nSCORE: " + score);
         let tmp = this;
         if (x == -1 && y == -1) {
@@ -89,8 +90,9 @@ export class Planet {
                 delay: 0,
                 onComplete: function () {
                     window.setTimeout(function () {
+                        _this.openPopupWhenDie();
                         // scene.stop('GameScene');
-                        scene.restart();
+                        // scene.restart();
                         // scene.start("MenuScene");
 
                     }, 100);
@@ -113,9 +115,10 @@ export class Planet {
                         duration: customConfig.sliderSkin.item.duration + 1500,
                         delay: 0,
                         onComplete: function () {
-                            window.setTimeout(function () {
-                                scene.restart();
-                            }, 100);
+                            // window.setTimeout(function () {
+                            //     scene.restart();
+                            // }, 100);
+                            _this.openPopupWhenDie();
                         }
                     })
                 }

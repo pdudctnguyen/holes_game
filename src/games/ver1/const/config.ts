@@ -435,7 +435,18 @@ export let customConfig = {
         { type: 2, limit: 3600, text: "Invite 10F", key: "buttonBlueMini", textIfHad: "OK" },
         { type: 2, limit: 3600, text: "Invite 10F", key: "buttonBlueMini", textIfHad: "OK" },
         { type: 2, limit: 3600, text: "Invite 15F", key: "buttonBlueMini", textIfHad: "OK" }
-    ]
+    ],
+    backgroundPopupDie: {
+        x: width / 2,
+        y: height / 2,
+        width: 0.6 * width,
+        fontSize: 40 / sizeWidth * width,
+        fontSizeTime: 40 / sizeWidth * width,
+        fontSizeScore: 60 / sizeWidth * width,
+        color: "white",
+        colorTime:"red",
+        key: "background"
+    }
 }
 export let HolesConfig = {
 
@@ -488,7 +499,17 @@ export let AssetsMenu = [
     { key: "background1", url: "./src/games/ver1/assets/BG-cloud 2.png", type: 0 },
     { key: "background2", url: "./src/games/ver1/assets/BG-star 2.png", type: 0 },
     { key: "music", url: "./src/games/ver1/assets/music.mp3", type: 2 },
-
+    { key: "ball1", url: "./src/games/ver1/assets/ball.png", type: 0 },
+    { key: "ball1", url: "./src/games/ver1/assets/ball11.png", type: 0 },
+    { key: "area", url: "./src/games/ver1/assets/ballback.png", type: 0 },
+    { key: 'bar', url: './src/games/ver1/assets/Bar.png', type: 0 },
+    { key: 'zone', url: './src/games/ver1/assets/zone.png', type: 0 },
+    { key: 'warn', url: './src/games/ver1/assets/gift5.png', type: 0 },
+    { key: 'planets', url: './src/games/ver1/assets/planets-sheet.png', type: 1 },
+    { key: 'gift5', url: './src/games/ver1/assets/gift5a.png', type: 0 },
+    { key: 'gift10', url: './src/games/ver1/assets/gift10.png', type: 0 },
+    { key: 'holes', url: './src/games/ver1/assets/holes-sheet.png', type: 1 },
+    { key: "music", url: "./src/games/ver1/assets/music.mp3", type: 2 },
 ];
 export let AssetsMain = [
     { key: "ball1", url: "./src/games/ver1/assets/ball.png", type: 0 },
