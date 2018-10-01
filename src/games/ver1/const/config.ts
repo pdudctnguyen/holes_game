@@ -12,6 +12,7 @@ export let customConfig = {
     version: "1.0",
     zoom: 1,
     backgroundColor: "#24292e",
+    nextLevel:95/height * height,
     camera: {
         bound: [0, - height, width, height * 2]
     },

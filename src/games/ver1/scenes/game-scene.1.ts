@@ -144,6 +144,7 @@ export class GameScene extends Phaser.Scene {
     this.btnContinue.setScrollFactor(0);
     this.btnReplay.setScrollFactor(0);
     this.textWhenDie.setScrollFactor(0);
+    this.textScoreWhenDie.setScrollFactor(0);
     this.textTime.setScrollFactor(0);
    
     // tmp.btnReplay.depth=6;
@@ -401,7 +402,7 @@ export class GameScene extends Phaser.Scene {
       allow = true;
     }
     this.score = this.bar.update(direction, this.score);
-    if (this.bar.getY() <= customConfig.camera.bound[1] + 100) {
+    if (this.bar.getY() <= customConfig.camera.bound[1] + customConfig.nextLevel) {
       let arrHoles;
       for (let t = 0; t < this.listHolesRoot.length; t++) {
         arrHoles = this.listHolesRoot[t];
@@ -417,8 +418,8 @@ export class GameScene extends Phaser.Scene {
         this.listGiftsRoot.splice(t, 1);
       }
       this.holes.createChildren(customConfig.hole.startY, customConfig.camera.bound[1]);
-      this.planet.setY(this.planet.getY() + 2 * customConfig.height - 100);
-      this.bar.setY(this.bar.getY() + 2 * customConfig.height - 100);
+      this.planet.setY(this.planet.getY() + 2 * customConfig.height - customConfig.nextLevel/3);
+      this.bar.setY(this.bar.getY() + 2 * customConfig.height - customConfig.nextLevel/3);
       this.background0.x = customConfig.width / 2;
       this.background0.y = this.planet.getY() - customConfig.height / 2;
       this.background1.x = customConfig.width / 4;
@@ -437,8 +438,6 @@ export class GameScene extends Phaser.Scene {
               this.zone1.y = this.area1.y;
               this.zone2.y = this.area2.y;
               this.matter.pause();
-              // this.zone1.destroy();
-              // this.zone2.destroy();
               this.scoreText.setText("YOU LOST");
               this.setDead(item.x, item.y);
               break;
